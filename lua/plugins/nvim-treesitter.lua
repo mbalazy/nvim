@@ -1,3 +1,4 @@
+local on_attach = require("util.lsp").on_attach
 
 local config = function()
 	require("nvim-treesitter.configs").setup({
@@ -39,9 +40,9 @@ local config = function()
 			enable = true,
 			additional_vim_regex_highlighting = true,
 		},
-		autotag = {
-			enable = true,
-		},
+		-- autotag = {
+		-- 	enable = true,
+		-- },
 		incremental_selection = {
 			enable = true,
 			keymaps = {

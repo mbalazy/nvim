@@ -1,6 +1,7 @@
 return {
 	"folke/noice.nvim",
 	event = "VeryLazy",
+	-- enabled = false,
 	opts = {
 		routes = {},
 		lsp = {
@@ -65,7 +66,7 @@ return {
 		-- 		top_down = false,
 		-- 		background_colour = "#000000",
 		-- 		fade_in_slide_out = false,
-  --       stages = "static",  -- This disables animations
+		--       stages = "static",  -- This disables animations
 		-- 	},
 		-- },
 	},

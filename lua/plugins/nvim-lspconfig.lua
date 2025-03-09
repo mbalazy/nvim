@@ -1,20 +1,17 @@
-local on_attach = require("util.lsp").on_attach
 local diagnostic_signs = require("util.icons").diagnostic_signs
 -- local typescript_organise_imports = require("util.lsp").typescript_organise_imports
 
 local config = function()
 	require("neoconf").setup({})
-	-- local cmp_nvim_lsp = require("cmp_nvim_lsp")
+	local cmp_nvim_lsp = require("cmp_nvim_lsp")
 	local lspconfig = require("lspconfig")
-	-- local capabilities = cmp_nvim_lsp.default_capabilities()
+	local capabilities = cmp_nvim_lsp.default_capabilities()
 
 	-- lua
 	lspconfig.lua_ls.setup({
-		-- capabilities = capabilities,
-		-- on_attach = on_attach,
+		capabilities = capabilities,
 		settings = { -- custom settings for lua
 			Lua = {
-				-- make the language server recognize "vim" global
 				diagnostics = {
 					globals = { "vim" },
 				},
@@ -28,45 +25,27 @@ local config = function()
 		},
 	})
 
-	-- solidity
-	-- lspconfig.solidity_ls.setup({
-	-- 	capabilities = capabilities,
-	-- 	on_attach = on_attach,
-	-- 	filetypes = { "solidity" },
-	-- 	root_dir = lspconfig.util.root_pattern("hardhat.config.*", "foundry.toml", "remappings.txt", ".git"),
-	-- 	settings = {
-	-- 		solidity = {
-	-- 			includePath = "",
-	-- 			remappings = {
-	-- 				["@openzeppelin/"] = "lib/openzeppelin-contracts/",
-	-- 				["account-abstraction/"] = "lib/account-abstraction/",
-	-- 			},
-	-- 		},
-	-- 	},
-	-- })
+	-- python
+	lspconfig.pyright.setup({
+		capabilities = capabilities,
+		settings = {
+			pyright = {
+				disableOrganizeImports = false,
+				analysis = {
+					useLibraryCodeForTypes = true,
+					autoSearchPaths = true,
+					diagnosticMode = "workspace",
+					autoImportCompletions = true,
+				},
+			},
+		},
+	})
 
 	-- json
 	-- lspconfig.jsonls.setup({
 	-- 	capabilities = capabilities,
 	-- 	on_attach = on_attach,
 	-- 	filetypes = { "json", "jsonc" },
-	-- })
-
-	-- python
-	-- lspconfig.pyright.setup({
-	-- 	capabilities = capabilities,
-	-- 	on_attach = on_attach,
-	-- 	settings = {
-	-- 		pyright = {
-	-- 			disableOrganizeImports = false,
-	-- 			analysis = {
-	-- 				useLibraryCodeForTypes = true,
-	-- 				autoSearchPaths = true,
-	-- 				diagnosticMode = "workspace",
-	-- 				autoImportCompletions = true,
-	-- 			},
-	-- 		},
-	-- 	},
 	-- })
 
 	-- typescript
@@ -140,8 +119,8 @@ local config = function()
 	-- local prettier_d = require("efmls-configs.formatters.prettier_d")
 	local luacheck = require("efmls-configs.linters.luacheck")
 	local stylua = require("efmls-configs.formatters.stylua")
-	-- local flake8 = require("efmls-configs.linters.flake8")
-	-- local black = require("efmls-configs.formatters.black")
+	local flake8 = require("efmls-configs.linters.flake8")
+	local black = require("efmls-configs.formatters.black")
 	-- local eslint = require("efmls-configs.linters.eslint")
 	-- local fixjson = require("efmls-configs.formatters.fixjson")
 	-- local shellcheck = require("efmls-configs.linters.shellcheck")
@@ -154,8 +133,7 @@ local config = function()
 	lspconfig.efm.setup({
 		filetypes = {
 			"lua",
-			-- "solidity",
-			-- "python",
+			"python",
 			-- "json",
 			-- "jsonc",
 			-- "sh",
@@ -163,7 +141,6 @@ local config = function()
 			-- "javascriptreact",
 			-- "typescript",
 			-- "typescriptreact",
-			-- "svelte",
 			-- "vue",
 			-- "markdown",
 			-- "docker",
@@ -185,8 +162,7 @@ local config = function()
 		settings = {
 			languages = {
 				lua = { luacheck, stylua },
-				-- solidity = { solhint, prettier_d },
-				-- python = { flake8, black },
+				python = { flake8, black },
 				-- typescript = { eslint, prettier_d },
 				-- json = { eslint, fixjson },
 				-- jsonc = { eslint, fixjson },
@@ -194,7 +170,6 @@ local config = function()
 				-- javascript = { eslint, prettier_d },
 				-- javascriptreact = { eslint, prettier_d },
 				-- typescriptreact = { eslint, prettier_d },
-				-- svelte = { eslint, prettier_d },
 				-- vue = { eslint, prettier_d },
 				-- markdown = { prettier_d },
 				-- docker = { hadolint, prettier_d },
@@ -215,8 +190,8 @@ return {
 		"windwp/nvim-autopairs",
 		"williamboman/mason.nvim",
 		"creativenull/efmls-configs-nvim",
-		-- "hrsh7th/nvim-cmp",
-		-- "hrsh7th/cmp-buffer",
-		-- "hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/nvim-cmp",
+		"hrsh7th/cmp-buffer",
+		"hrsh7th/cmp-nvim-lsp",
 	},
 }
