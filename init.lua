@@ -1,5 +1,7 @@
 require("config.lazy")
+require("config.sessions")
 -- require("plugins.highlightedyank")
+
 
 vim.cmd("colorscheme tokyodark")
 vim.g.highlightedyank_highlight_duration = 150

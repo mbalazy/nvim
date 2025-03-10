@@ -5,12 +5,16 @@ return {
 		require("which-key").setup()
 		-- Register your keymaps here
 		local wk = require("which-key")
+		local session = require("config.sessions")
 		wk.add({
 			{ "<leader>q", "<cmd>bdelete<cr>", desc = "Find Files" },
 
 			{ "<leader>b", group = "Search" },
 			{ "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", desc = "Close all buffers to the left" },
 			{ "<leader>bl", "<cmd>BufferLineCloseRight<cr>", desc = "Close all buffers to the right" },
+			{ "<leader>S", group = "Session" },
+			{ "<leader>Ss", session.save_git_session, desc = "Save Git session" },
+			{ "<leader>Sl", session.load_git_session, desc = "Load Git session" },
 
 			{ "<leader>m", "<cmd>Mason<cr>", desc = "Mason" },
 

@@ -23,6 +23,7 @@ return {
 				["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
 				["<C-e>"] = cmp.mapping.abort(), -- close completion window
 				["<CR>"] = cmp.mapping.confirm({ select = false }),
+				["<C-l>"] = cmp.mapping.confirm({ select = false }),
 			}),
 			-- sources for autocompletion
 			sources = cmp.config.sources({
@@ -34,9 +35,23 @@ return {
 			-- configure lspkind for vs-code like icons
 			formatting = {
 				format = lspkind.cmp_format({
-					maxwidth = 60,
+					maxwidth = 30,
 					ellipsis_char = "...",
 				}),
+			},
+			-- Add these sections for borders and item limits
+			completion = {
+				max_item_count  = 16,
+			},
+			window = {
+				completion = {
+					border = "rounded",
+					winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
+				},
+				documentation = {
+					border = "rounded",
+					winhighlight = "Normal:CmpDoc,FloatBorder:CmpDocBorder",
+				},
 			},
 		})
 	end,

@@ -1,5 +1,5 @@
 local diagnostic_signs = require("util.icons").diagnostic_signs
--- local typescript_organise_imports = require("util.lsp").typescript_organise_imports
+local typescript_organise_imports = require("util.lsp").typescript_organise_imports
 
 local config = function()
 	require("neoconf").setup({})
@@ -48,26 +48,63 @@ local config = function()
 	-- 	filetypes = { "json", "jsonc" },
 	-- })
 
-	-- typescript
-	-- lspconfig.ts_ls.setup({
-	-- 	on_attach = on_attach,
-	-- 	capabilities = capabilities,
-	-- 	filetypes = {
-	-- 		"typescript",
-	-- 		"javascript",
-	-- 		"typescriptreact",
-	-- 		"javascriptreact",
-	-- 	},
-	-- 	commands = {
-	-- 		TypeScriptOrganizeImports = typescript_organise_imports,
-	-- 	},
-	-- 	settings = {
-	-- 		typescript = {
-	-- 			indentStyle = "space",
-	-- 			indentSize = 2,
-	-- 		},
-	-- 	},
-	-- })
+	-- require'lspconfig'.ts_ls.setup{
+	--   init_options = {
+	--     plugins = {
+	--       {
+	--         name = "@vue/typescript-plugin",
+	--         location = "/usr/local/lib/node_modules/@vue/typescript-plugin",
+	--         languages = {"javascript", "typescript", "vue"},
+	--       },
+	--     },
+	--   },
+	--   filetypes = {
+	--     "javascript",
+	--     "typescript",
+	--     "vue",
+	--   },
+	-- }
+	--
+
+	lspconfig.ts_ls.setup({
+		-- on_attach = on_attach,
+		capabilities = capabilities,
+		init_options = {
+			plugins = {
+				{
+					name = "@vue/typescript-plugin",
+					location = "~/.local/share/nvim/mason/bin/vue-language-serve",
+					languages = { "vue" },
+				},
+			},
+		},
+		filetypes = {
+			"typescript",
+			"javascript",
+			"typescriptreact",
+			"javascriptreact",
+      "vue",
+		},
+		commands = {
+			TypeScriptOrganizeImports = typescript_organise_imports,
+		},
+		settings = {
+			typescript = {
+				indentStyle = "space",
+				indentSize = 2,
+			},
+		},
+	})
+
+  -- lspconfig.volar.setup {
+  --   -- add filetypes for typescript, javascript and vue
+  --   filetypes = { 'vue' },
+  --   init_options = {
+  --     vue = {
+  --       hybridMode = false,
+  --     },
+  --   },
+  -- }
 
 	-- bash
 	-- lspconfig.bashls.setup({
@@ -116,12 +153,12 @@ local config = function()
 	end
 
 	-- local solhint = require("efmls-configs.linters.solhint")
-	-- local prettier_d = require("efmls-configs.formatters.prettier_d")
 	local luacheck = require("efmls-configs.linters.luacheck")
 	local stylua = require("efmls-configs.formatters.stylua")
 	local flake8 = require("efmls-configs.linters.flake8")
 	local black = require("efmls-configs.formatters.black")
-	-- local eslint = require("efmls-configs.linters.eslint")
+	local eslint_d = require("efmls-configs.linters.eslint_d")
+	local prettier_d = require("efmls-configs.formatters.prettier_d")
 	-- local fixjson = require("efmls-configs.formatters.fixjson")
 	-- local shellcheck = require("efmls-configs.linters.shellcheck")
 	-- local shfmt = require("efmls-configs.formatters.shfmt")
@@ -137,11 +174,11 @@ local config = function()
 			-- "json",
 			-- "jsonc",
 			-- "sh",
-			-- "javascript",
-			-- "javascriptreact",
-			-- "typescript",
-			-- "typescriptreact",
-			-- "vue",
+			"javascript",
+			"javascriptreact",
+			"typescript",
+			"typescriptreact",
+			"vue",
 			-- "markdown",
 			-- "docker",
 			-- "html",
@@ -163,14 +200,14 @@ local config = function()
 			languages = {
 				lua = { luacheck, stylua },
 				python = { flake8, black },
-				-- typescript = { eslint, prettier_d },
+				typescript = { eslint_d, prettier_d },
 				-- json = { eslint, fixjson },
 				-- jsonc = { eslint, fixjson },
 				-- sh = { shellcheck, shfmt },
-				-- javascript = { eslint, prettier_d },
-				-- javascriptreact = { eslint, prettier_d },
-				-- typescriptreact = { eslint, prettier_d },
-				-- vue = { eslint, prettier_d },
+				javascript = { eslint_d, prettier_d },
+				javascriptreact = { eslint_d, prettier_d },
+				typescriptreact = { eslint_d, prettier_d },
+				vue = { eslint_d, prettier_d },
 				-- markdown = { prettier_d },
 				-- docker = { hadolint, prettier_d },
 				-- html = { prettier_d },
