@@ -28,6 +28,7 @@ return {
 			},
 			{ "<leader>li", "<cmd>LspInfo<CR>", desc = "LSP Info" },
 
+      { "<leader>g", group = "Git" },
 			-- { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "NvimTree Toggle" },
 		})
 	end,
