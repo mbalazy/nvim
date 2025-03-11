@@ -25,9 +25,9 @@ local config = function()
 			vim.keymap.set("n", "<leader>gr", gitsigns.reset_hunk, { buffer = bufnr, desc = "Reset current hunk" })
 
 			-- Hunk Actions (Visual Mode)
-			vim.keymap.set("v", "<leader>gs", function()
-				gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-			end, { buffer = bufnr, desc = "Stage selected hunk" })
+			-- vim.keymap.set("v", "<leader>gs", function()
+			-- 	gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+			-- end, { buffer = bufnr, desc = "Stage selected hunk" })
 
 			vim.keymap.set("v", "<leader>gr", function()
 				gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
@@ -47,18 +47,26 @@ local config = function()
 			)
 
 			-- Blame and Diff
-			vim.keymap.set("n", "<leader>gb", function()
+			vim.keymap.set("n", "<leader>gl", function()
+				gitsigns.blame_line()
+			end, { buffer = bufnr, desc = "Show blame" })
+
+			vim.keymap.set("n", "<leader>gL", function()
 				gitsigns.blame_line({ full = true })
 			end, { buffer = bufnr, desc = "Show full line blame" })
 
+			vim.keymap.set("n", "<leader>gB", function()
+				gitsigns.blame()
+			end, { buffer = bufnr, desc = "Show blame on file" })
+
 			vim.keymap.set(
 				"n",
-				"<leader>gd",
+				"<leader>ga",
 				gitsigns.diffthis,
 				{ buffer = bufnr, desc = "Show diff for current file" }
 			)
 
-			vim.keymap.set("n", "<leader>gD", function()
+			vim.keymap.set("n", "<leader>gA", function()
 				gitsigns.diffthis("~")
 			end, { buffer = bufnr, desc = "Show diff against previous commit" })
 
@@ -77,17 +85,11 @@ local config = function()
 			-- Toggles
 			vim.keymap.set(
 				"n",
-				"<leader>tb",
+				"<leader>gtb",
 				gitsigns.toggle_current_line_blame,
 				{ buffer = bufnr, desc = "Toggle line blame" }
 			)
-			vim.keymap.set(
-				"n",
-				"<leader>td",
-				gitsigns.toggle_deleted,
-				{ buffer = bufnr, desc = "Toggle deleted lines" }
-			)
-			vim.keymap.set("n", "<leader>tw", gitsigns.toggle_word_diff, { buffer = bufnr, desc = "Toggle word diff" })
+			vim.keymap.set("n", "<leader>gtw", gitsigns.toggle_word_diff, { buffer = bufnr, desc = "Toggle word diff" })
 
 			-- Text Object
 			vim.keymap.set({ "o", "x" }, "ih", gitsigns.select_hunk, { buffer = bufnr, desc = "Select git hunk" })
