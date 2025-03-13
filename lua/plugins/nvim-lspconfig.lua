@@ -1,5 +1,9 @@
 local diagnostic_signs = require("util.icons").diagnostic_signs
-local typescript_organise_imports = require("util.lsp").typescript_organise_imports
+local typescript_helpers = require("util.lsp")
+
+local typescript_commands = {
+	TypeScriptOrganizeImports = typescript_helpers.typescript_organise_imports,
+}
 
 local config = function()
 	require("neoconf").setup({})
@@ -10,7 +14,7 @@ local config = function()
 	-- lua
 	lspconfig.lua_ls.setup({
 		capabilities = capabilities,
-		settings = { -- custom settings for lua
+		settings = {
 			Lua = {
 				diagnostics = {
 					globals = { "vim" },
@@ -44,13 +48,11 @@ local config = function()
 	-- json
 	lspconfig.jsonls.setup({
 		capabilities = capabilities,
-		-- on_attach = on_attach,
 		filetypes = { "json", "jsonc" },
 	})
 
 	-- typescript
 	lspconfig.ts_ls.setup({
-		-- on_attach = on_attach,
 		capabilities = capabilities,
 		filetypes = {
 			"typescript",
@@ -58,9 +60,7 @@ local config = function()
 			"typescriptreact",
 			"javascriptreact",
 		},
-		commands = {
-			TypeScriptOrganizeImports = typescript_organise_imports,
-		},
+		commands = typescript_commands,
 		settings = {
 			typescript = {
 				indentStyle = "space",
@@ -72,14 +72,11 @@ local config = function()
 	-- vue
 	lspconfig.volar.setup({
 		filetypes = { "vue" },
+		commands = typescript_commands,
 		init_options = {
 			vue = {
 				hybridMode = false,
 			},
-			-- typescript = {
-			-- 	tsdk = vim.fs.find({ "node_modules/typescript/lib" }, { path = vim.fn.getcwd(), upward = true })[1]
-			-- 		or "~/.local/share/nvim/mason/packages/typescript-language-server/node_modules/typescript/lib",
-			-- },
 		},
 	})
 
@@ -89,19 +86,15 @@ local config = function()
 		filetypes = { "sh", "aliasrc" },
 	})
 
-	-- typescriptreact, javascriptreact, css, sass, scss, less, svelte, vue
+	--  css, sass, scss, less, svelte
 	lspconfig.emmet_ls.setup({
 		capabilities = capabilities,
 		filetypes = {
-			-- "typescriptreact",
-			-- "javascriptreact",
-			-- "javascript",
 			"css",
 			"sass",
 			"scss",
 			"less",
 			"svelte",
-			-- "vue",
 			"html",
 		},
 	})
