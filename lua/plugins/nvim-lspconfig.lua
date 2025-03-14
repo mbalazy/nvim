@@ -1,9 +1,4 @@
 local diagnostic_signs = require("util.icons").diagnostic_signs
-local typescript_helpers = require("util.lsp")
-
-local typescript_commands = {
-	TypeScriptOrganizeImports = typescript_helpers.typescript_organise_imports,
-}
 
 local config = function()
 	require("neoconf").setup({})
@@ -49,35 +44,6 @@ local config = function()
 	lspconfig.jsonls.setup({
 		capabilities = capabilities,
 		filetypes = { "json", "jsonc" },
-	})
-
-	-- typescript
-	lspconfig.ts_ls.setup({
-		capabilities = capabilities,
-		filetypes = {
-			"typescript",
-			"javascript",
-			"typescriptreact",
-			"javascriptreact",
-		},
-		commands = typescript_commands,
-		settings = {
-			typescript = {
-				indentStyle = "space",
-				indentSize = 2,
-			},
-		},
-	})
-
-	-- vue
-	lspconfig.volar.setup({
-		filetypes = { "vue" },
-		commands = typescript_commands,
-		init_options = {
-			vue = {
-				hybridMode = false,
-			},
-		},
 	})
 
 	-- bash
@@ -188,7 +154,7 @@ end
 return {
 	"neovim/nvim-lspconfig",
 	config = config,
-	lazy = false,
+	event = "VeryLazy",
 	dependencies = {
 		"windwp/nvim-autopairs",
 		"williamboman/mason.nvim",

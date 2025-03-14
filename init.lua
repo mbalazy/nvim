@@ -1,6 +1,6 @@
 require("config.lazy")
 require("config.sessions")
--- require("plugins.highlightedyank")
+require("util.diff_upload")
 
 vim.cmd("colorscheme tokyodark")
 vim.g.highlightedyank_highlight_duration = 150
