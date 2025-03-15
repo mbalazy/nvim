@@ -16,8 +16,8 @@ return {
 			{ "<leader>s", group = "Search" },
 			{ "<leader>u", group = "Toggle" },
 			{ "<leader>S", group = "Session" },
-			{ "<leader>Ss", session.save_git_session, desc = "Save Git session" },
-			{ "<leader>Sl", session.load_git_session, desc = "Load Git session" },
+			{ "<leader>Ss", session.save_session, desc = "Save Git session" },
+			{ "<leader>Sl", session.load_session, desc = "Load Git session" },
 
 			{ "<leader>m", "<cmd>Mason<cr>", desc = "Mason" },
 

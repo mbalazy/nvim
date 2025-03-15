@@ -27,7 +27,7 @@ local function get_session_file()
 	return nil
 end
 
-local function save_git_session()
+local function save_session()
 	local git_root = get_git_root()
 	if not git_root then
 		vim.notify("Not in a Git repository", vim.log.levels.WARN)
@@ -47,7 +47,7 @@ local function save_git_session()
 	vim.g.active_git_session = session_file
 end
 
-local function load_git_session()
+local function load_session()
 	local git_root = get_git_root()
 	if not git_root then
 		vim.notify("Not in a Git repository", vim.log.levels.WARN)
@@ -76,7 +76,7 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead", "VimLeave" }, {
 	end,
 })
 
-M.save_git_session = save_git_session
-M.load_git_session = load_git_session
+M.save_session = save_session
+M.load_session = load_session
 
 return M

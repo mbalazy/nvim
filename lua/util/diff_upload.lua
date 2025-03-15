@@ -5,8 +5,8 @@ local function log_message(message, level)
 	vim.notify(message, level)
 end
 
--- Generate a unique filename based on context (git or regular directory) and timestamp
 local function generate_filename()
+	local timestamp = os.date("%Y-%m-%d_%H-%M-%S")
 	local is_git_repo = os.execute("git rev-parse --is-inside-work-tree &>/dev/null")
 
 	if is_git_repo then
@@ -22,9 +22,7 @@ local function generate_filename()
 
 		branch_name = branch_name:gsub("/", "_")
 
-		local timestamp = os.date("%Y%m%d_%H%M%S")
-
-		return repo_name .. "_" .. branch_name .. "_" .. timestamp .. ".diff"
+		return timestamp .. "__" .. repo_name .. "__" .. branch_name .. ".diff"
 	else
 		local dir_cmd = "basename $(pwd)"
 		local dir_handle = io.popen(dir_cmd)
@@ -36,9 +34,7 @@ local function generate_filename()
 			filename = "nofile"
 		end
 
-		local timestamp = os.date("%Y%m%d_%H%M%S")
-
-		return dir_name .. "_" .. filename .. "_" .. timestamp .. ".diff"
+		return timestamp .. "__" .. dir_name .. "__" .. filename .. ".diff"
 	end
 end
 
@@ -136,10 +132,5 @@ function M.create_and_upload_diff()
 	end
 end
 
-vim.api.nvim_create_user_command("UploadDiff", function()
-	M.create_and_upload_diff()
-end, {})
-
-vim.keymap.set('n', '<leader>gb', M.create_and_upload_diff, { noremap = true, desc = "Upload diff to SSH" })
 
 return M

@@ -4,14 +4,9 @@ require("util.diff_upload")
 
 vim.cmd("colorscheme tokyodark")
 vim.g.highlightedyank_highlight_duration = 150
--- Replace the existing <leader>n mapping with:
-
-vim.keymap.set("n", "<leader>n", ":nohlsearch<CR>", { desc = "Clear Search Highlight", silent = true })
-vim.keymap.set("n", "<leader>p", "ggVGp<CR>", { desc = "Paste in whole file", silent = true })
 
 require("nvim-autopairs").setup({
 	disable_in_macro = true,
-
 	check_ts = true,
 	ts_config = {
 		lua = { "string" },

@@ -10,7 +10,7 @@ return {
 			enabled = true,
 			preset = {
 				keys = {
-          { icon = " ", key = "s", desc = "Restore Session", action = session.load_git_session },
+          { icon = " ", key = "s", desc = "Restore Session", action = session.load_session },
           { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
           { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
           { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
@@ -121,7 +121,7 @@ return {
     -- { "<leader>Z",  function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
     -- { "<leader>.",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
     -- { "<leader>S",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
-    { "<leader>n",  function() Snacks.notifier.show_history() end, desc = "Notification History" },
+    -- { "<leader>n",  function() Snacks.notifier.show_history() end, desc = "Notification History" },
     { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
     -- { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
     { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },

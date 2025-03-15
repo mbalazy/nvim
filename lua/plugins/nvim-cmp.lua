@@ -40,7 +40,6 @@ return {
 					ellipsis_char = "...",
 				}),
 			},
-			-- Add these sections for borders and item limits
 			completion = {
 				max_item_count  = 16,
 			},
