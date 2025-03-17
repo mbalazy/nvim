@@ -52,6 +52,12 @@ local config = function()
 		filetypes = { "sh", "aliasrc" },
 	})
 
+	-- CSS
+	lspconfig.cssls.setup({
+		capabilities = capabilities,
+		filetypes = { "css", "scss", "less" },
+	})
+
 	--  css, sass, scss, less, svelte
 	lspconfig.emmet_ls.setup({
 		capabilities = capabilities,

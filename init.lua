@@ -5,6 +5,10 @@ require("util.diff_upload")
 vim.cmd("colorscheme tokyodark")
 vim.g.highlightedyank_highlight_duration = 150
 
+vim.lsp.buf_request_sync_options = {
+	timeout_ms = 5000,
+}
+
 require("nvim-autopairs").setup({
 	disable_in_macro = true,
 	check_ts = true,

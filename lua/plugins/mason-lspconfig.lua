@@ -22,6 +22,7 @@ local mason_lspconfig = {
 			"bashls",
 			"ts_ls",
 			"tailwindcss",
+      "cssls",
 			"pyright",
 			"lua_ls",
 			"emmet_ls",

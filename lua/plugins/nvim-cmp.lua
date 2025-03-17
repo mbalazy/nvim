@@ -1,5 +1,5 @@
 return {
-	"rsh7th/nvim-cmp",
+	"hrsh7th/nvim-cmp",
 	event = "VeryLazy",
 	config = function()
 		local cmp = require("cmp")
@@ -17,14 +17,21 @@ return {
 				end,
 			},
 			mapping = cmp.mapping.preset.insert({
-				["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
-				["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
-				["<C-b>"] = cmp.mapping.scroll_docs(-4),
-				["<C-f>"] = cmp.mapping.scroll_docs(4),
-				["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-				["<C-e>"] = cmp.mapping.abort(), -- close completion window
+				["<C-k>"] = cmp.mapping.select_prev_item(),
+				["<C-j>"] = cmp.mapping.select_next_item(),
+
+				["<C-u>"] = cmp.mapping.scroll_docs(-4),
+				["<C-d>"] = cmp.mapping.scroll_docs(4),
+
+				["<C-h>"] = cmp.mapping.abort(),
 				["<CR>"] = cmp.mapping.confirm({ select = false }),
-				["<C-l>"] = cmp.mapping.confirm({ select = false }),
+				["<C-l>"] = cmp.mapping(function()
+					if cmp.visible() then
+						cmp.confirm({ select = false })
+					else
+						cmp.complete()
+					end
+				end, { "i", "s" }),
 			}),
 			-- sources for autocompletion
 			sources = cmp.config.sources({
@@ -37,11 +44,11 @@ return {
 			formatting = {
 				format = lspkind.cmp_format({
 					maxwidth = 30,
-					ellipsis_char = "...",
+					ellipsis_char = "..",
 				}),
 			},
 			completion = {
-				max_item_count  = 16,
+				max_item_count = 16,
 			},
 			window = {
 				completion = {
