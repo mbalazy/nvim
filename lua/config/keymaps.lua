@@ -1,4 +1,6 @@
 local keymap = vim.keymap
+
+--  todo: dont require - make this fn's global cmd's
 local create_and_upload_diff = require("util.diff_upload").create_and_upload_diff
 local copy_diagnostics_to_clipboard = require("util.copy_diag").copy_diagnostics_to_clipboard
 

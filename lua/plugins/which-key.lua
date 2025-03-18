@@ -2,9 +2,19 @@ return {
 	"folke/which-key.nvim",
 	event = "VeryLazy",
 	config = function()
-		require("which-key").setup()
+		require("which-key").setup({
+			preset = "modern",
+			layout = {
+				width = { min = 20 }, -- min and max width of the columns
+				spacing = 1, -- spacing between columns
+			},
+			icons = {
+				mappings = false,
+			},
+		})
 		-- Register your keymaps here
 		local wk = require("which-key")
+		--  todo: dont require - make session fn's global cmd's
 		local session = require("config.sessions")
 		wk.add({
 			{ "<leader>q", "<cmd>bdelete<cr>", desc = "Close buffer" },
@@ -24,10 +34,10 @@ return {
 			{ "<leader>l", group = "LSP" },
 			{ "<leader>lo", "<cmd>TSToolsOrganizeImports<cr>", desc = "Organize Imports" },
 			{ "<leader>ls", "<cmd>TSToolsSortImports<cr>", desc = "Sort Imports" },
-			{ "<leader>li", "<cmd>TSToolsAddMissingImports<cr>", desc = "Organize Imports" },
+			{ "<leader>li", "<cmd>TSToolsAddMissingImports<cr>", desc = "Add Missing Imports" },
 			{ "<leader>lF", "<cmd>TSToolsFixAll<cr>", desc = "Fix All" },
 			{ "<leader>ll", "<cmd>TSToolsFileReferences<cr>", desc = "File Reference" },
-			{ "<leader>lu", "<cmd>TSToolsRemoveUnused<cr>", desc = "Organize Imports" },
+			{ "<leader>lu", "<cmd>TSToolsRemoveUnused<cr>", desc = "Remove unused" },
 			{
 				"<leader>lf",
 				function()
@@ -37,7 +47,7 @@ return {
 			},
 			{ "<leader>lI", "<cmd>LspInfo<CR>", desc = "LSP Info" },
 
-      { "<leader>g", group = "Git" },
+			{ "<leader>g", group = "Git" },
 			-- { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "NvimTree Toggle" },
 		})
 	end,

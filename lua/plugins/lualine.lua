@@ -102,6 +102,7 @@ local config = function()
 		tabline = {},
 	})
 
+  -- todo: move it to keymaps file
 	vim.keymap.set(
 		"n",
 		"<leader>uf",
