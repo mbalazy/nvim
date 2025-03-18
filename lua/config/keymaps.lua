@@ -14,14 +14,20 @@ keymap.set("n", "<S-l>", ":bn<CR>", { silent = true })
 keymap.set("n", "<S-h>", ":bp<CR>", { silent = true })
 
 -- misc
-keymap.set("n", "<leader>y", ":%y+<CR>", { desc="Copy whole file", silent = true })
-keymap.set('n', '<leader>Y', copy_diagnostics_to_clipboard, { noremap = true, desc = "Copy diagnostics" })
+keymap.set("n", "<leader>y", ":%y+<CR>", { desc = "Copy whole file", silent = true })
+keymap.set("n", "<leader>Y", copy_diagnostics_to_clipboard, { noremap = true, desc = "Copy diagnostics" })
 
-keymap.set('n', '<leader>gb', create_and_upload_diff, { noremap = true, desc = "Upload diff to SSH" })
+keymap.set("n", "<leader>gb", create_and_upload_diff, { noremap = true, desc = "Upload diff to SSH" })
+keymap.set("n", "<leader>gO", "<cmd>GitStashNamed<cr>", { noremap = true, desc = "Create Stash" })
 keymap.set("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file", silent = true })
 
 keymap.set("n", "<leader>p", "ggVGp<CR>", { desc = "Paste in whole file", silent = true })
--- In init.lua
+
+keymap.set("n", "≤", "<Cmd>BufferLineMovePrev<CR>", {})
+keymap.set("n", "≥", "<Cmd>BufferLineMoveNext<CR>", {})
+
+keymap.set("n", "<A-h>", "<Cmd>BufferLineCyclePrev<CR>", {})
+keymap.set("n", "<A-l>", "<Cmd>BufferLineCycleNext<CR>", {})
 
 -- go to only errors
 keymap.set("n", "[D", function()
@@ -45,7 +51,7 @@ keymap.set("n", "[d", function()
 	vim.diagnostic.goto_prev()
 end, { silent = true })
 
-keymap.set("n", "<leader>h", ":normal! 0<CR>", { desc="Scroll to left", noremap = true, silent = true })
+keymap.set("n", "<leader>h", ":normal! 0<CR>", { desc = "Scroll to left", noremap = true, silent = true })
 
 keymap.set("i", "kj", "<Esc>")
 keymap.set("v", "<", "<gv")
