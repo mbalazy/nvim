@@ -132,5 +132,4 @@ function M.create_and_upload_diff()
 	end
 end
 
-
 return M

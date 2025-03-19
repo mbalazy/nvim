@@ -92,4 +92,10 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead", "VimLeave" }, {
 M.save_session = save_session
 M.load_session = load_session
 
+vim.api.nvim_create_user_command("SessionLoad", function()
+	load_session()
+end, {
+	desc = "Load session",
+})
+
 return M

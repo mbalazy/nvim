@@ -1,43 +1,39 @@
 -- Function to compare selected branch with HEAD using Diffview and Snacks.picker
-function compare_with_branch_picker()
-	-- Check if Snacks is available
+local function compare_with_branch_picker()
 	local ok, Snacks = pcall(require, "snacks")
 	if not ok then
 		vim.notify("Snacks.nvim is not available", vim.log.levels.ERROR)
 		return
 	end
 
-	-- Run git command to get only local branches
-	local handle = io.popen("git branch --format='%(refname:short)'")
-	if not handle then
-		vim.notify("Failed to run git command", vim.log.levels.ERROR)
-		return
-	end
-
-	local result = handle:read("*a")
-	handle:close()
-
-	-- Split the result into an array of branch names
-	local branches = {}
-	for branch in result:gmatch("[^\r\n]+") do
-		table.insert(branches, { text = branch, value = branch })
-	end
-
-	-- Use Snacks.picker to display branches for selection
+	-- Use Snacks.picker's built-in git_branches source
 	Snacks.picker.pick({
-		items = branches,
-		title = "Git Branches",
-		prompt = "Select branch to compare with HEAD",
-		confirm = function(picker, item)
-			picker:close()
-			if item and item.value then
-				local branch = item.value
+		source = "git_branches",
+		confirm = function(_, item)
+			if item then
+				-- Log the full item structure for debugging
+				vim.notify("Selected item: " .. vim.inspect(item), vim.log.levels.DEBUG)
 
-				-- Debug: print the selected branch
-				vim.notify("Selected branch: " .. vim.inspect(branch), vim.log.levels.INFO)
+				-- Try different potential properties where the branch name might be stored
+				local branch = item.name or item.text or item.refname or item[1]
 
-				-- Execute the diffview command
-				vim.cmd("DiffviewOpen " .. branch .. "..HEAD")
+				-- For git_branches source, the branch name is likely in item.text
+				if not branch and type(item) == "table" then
+					-- If we can't find the branch directly, inspect the item structure and make a guess
+					for _, v in pairs(item) do
+						if type(v) == "string" and v:match("^[%w%-_/]+$") then
+							branch = v
+							break
+						end
+					end
+				end
+
+				if branch then
+					vim.notify("Selected branch: " .. vim.inspect(branch), vim.log.levels.INFO)
+					vim.cmd("DiffviewOpen " .. branch .. "..HEAD")
+				else
+					vim.notify("Could not determine branch name from selection", vim.log.levels.WARN)
+				end
 			else
 				vim.notify("No branch selected", vim.log.levels.WARN)
 			end
@@ -45,10 +41,8 @@ function compare_with_branch_picker()
 	})
 end
 
--- Create the user command
 vim.api.nvim_create_user_command("CompareBranch", function()
 	compare_with_branch_picker()
 end, {
 	desc = "Compare current branch with another branch using Diffview",
 })
-

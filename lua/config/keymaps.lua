@@ -63,4 +63,3 @@ keymap.set("v", ">", ">gv")
 -- Workspace operations
 vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename symbol" })
 vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, { desc = "Code actions" })
--- vim.keymap.set('n', '<leader>f', vim.lsp.buf.format)      -- Format document

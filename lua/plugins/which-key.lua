@@ -53,8 +53,8 @@ return {
 			{ "<leader>g", group = "Git" },
 			{ "<leader>d", group = "DiffView" },
 			{ "<leader>da", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview (merge conflicts)" },
-			{ "<leader>dd", "<cmd>DiffviewOpen master..HEAD<cr>", desc = "Compare HEAD to master" },
-			{ "<leader>de", "<cmd>DiffviewFileHistory %<cr>", desc = "Browse  commits on this file (Diffview)" },
+			{ "<leader>de", "<cmd>DiffviewFileHistory %<cr>", desc = "Browse commits on this file" },
+			{ "<leader>dE", "<cmd>DiffviewFileHistory<cr>", desc = "Browse commits on this branch" },
 			{ "<leader>db", "<cmd>CompareBranch<cr>", desc = "Compare with branch" },
 		})
 	end,
