@@ -15,18 +15,7 @@ local function compare_with_branch_picker()
 				vim.notify("Selected item: " .. vim.inspect(item), vim.log.levels.DEBUG)
 
 				-- Try different potential properties where the branch name might be stored
-				local branch = item.name or item.text or item.refname or item[1]
-
-				-- For git_branches source, the branch name is likely in item.text
-				if not branch and type(item) == "table" then
-					-- If we can't find the branch directly, inspect the item structure and make a guess
-					for _, v in pairs(item) do
-						if type(v) == "string" and v:match("^[%w%-_/]+$") then
-							branch = v
-							break
-						end
-					end
-				end
+			  local branch = item.branch
 
 				if branch then
 					vim.notify("Selected branch: " .. vim.inspect(branch), vim.log.levels.INFO)
