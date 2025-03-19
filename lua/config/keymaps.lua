@@ -24,6 +24,7 @@ keymap.set("n", "<leader>gO", "<cmd>GitStashNamed<cr>", { noremap = true, desc =
 keymap.set("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file", silent = true })
 
 keymap.set("n", "<leader>p", "ggVGp<CR>", { desc = "Paste in whole file", silent = true })
+keymap.set("n", "<leader>x", "<cmd>tabclose<CR>", { desc = "Close tab", silent = true })
 
 keymap.set("n", "≤", "<Cmd>BufferLineMovePrev<CR>", {})
 keymap.set("n", "≥", "<Cmd>BufferLineMoveNext<CR>", {})

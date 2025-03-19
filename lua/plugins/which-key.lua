@@ -20,11 +20,14 @@ return {
 			{ "<leader>q", "<cmd>bdelete<cr>", desc = "Close buffer" },
 			{ "<leader>L", "<cmd>Lazy<cr>", desc = "Lazy.nvim" },
 
-			{ "<leader>b", group = "Search" },
+			{ "<leader>b", group = "BufferLine" },
 			{ "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", desc = "Close all buffers to the left" },
 			{ "<leader>bl", "<cmd>BufferLineCloseRight<cr>", desc = "Close all buffers to the right" },
+
 			{ "<leader>s", group = "Search" },
+
 			{ "<leader>u", group = "Toggle" },
+
 			{ "<leader>S", group = "Session" },
 			{ "<leader>Ss", session.save_session, desc = "Save Git session" },
 			{ "<leader>Sl", session.load_session, desc = "Load Git session" },
@@ -48,7 +51,11 @@ return {
 			{ "<leader>lI", "<cmd>LspInfo<CR>", desc = "LSP Info" },
 
 			{ "<leader>g", group = "Git" },
-			-- { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "NvimTree Toggle" },
+			{ "<leader>d", group = "DiffView" },
+			{ "<leader>da", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview (merge conflicts)" },
+			{ "<leader>dd", "<cmd>DiffviewOpen master..HEAD<cr>", desc = "Compare HEAD to master" },
+			{ "<leader>de", "<cmd>DiffviewFileHistory %<cr>", desc = "Browse  commits on this file (Diffview)" },
+			{ "<leader>db", "<cmd>CompareBranch<cr>", desc = "Compare with branch" },
 		})
 	end,
 }
