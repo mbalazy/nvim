@@ -1,0 +1,26 @@
+{
+  "name": "mart-sinppets",
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "all"
+        ],
+        "path": "./snippets/all.json"
+      },
+      {
+        "language": [
+          "javascript",
+          "typescript",
+          "ts",
+          "js",
+          "vue",
+          "javascriptreact",
+          "typescriptreact",
+          "vue"
+        ],
+        "path": "./js.json"
+      }
+    ]
+  }
+}

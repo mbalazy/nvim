@@ -2,7 +2,6 @@ local keymap = vim.keymap
 
 --  todo: dont require - make this fn's global cmd's
 local create_and_upload_diff = require("util.diff_upload").create_and_upload_diff
-local copy_diagnostics_to_clipboard = require("util.copy_diag").copy_diagnostics_to_clipboard
 
 -- dir navigation
 keymap.set("n", "<C-h>", "<C-w>h")
@@ -17,7 +16,6 @@ keymap.set("n", "<S-h>", ":bp<CR>", { silent = true })
 
 -- misc
 keymap.set("n", "<leader>y", ":%y+<CR>", { desc = "Copy whole file", silent = true })
-keymap.set("n", "<leader>Y", copy_diagnostics_to_clipboard, { noremap = true, desc = "Copy diagnostics" })
 
 keymap.set("n", "<leader>gb", create_and_upload_diff, { noremap = true, desc = "Upload diff to SSH" })
 keymap.set("n", "<leader>gO", "<cmd>GitStashNamed<cr>", { noremap = true, desc = "Create Stash" })

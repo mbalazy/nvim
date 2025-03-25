@@ -1,5 +1,5 @@
 -- Function to browse commit history and navigate to files
-local function browse_commit_files()
+local function browse_commit_files(selected_commit_hash)
 	local ok, Snacks = pcall(require, "snacks")
 	if not ok then
 		vim.notify("Snacks.nvim is not available", vim.log.levels.ERROR)
@@ -72,21 +72,32 @@ local function browse_commit_files()
 		return
 	end
 
+	-- Find the index of the selected commit if provided
+	local selected_index = 1
+	if selected_commit_hash then
+		for i, commit in ipairs(commits) do
+			if commit.hash == selected_commit_hash then
+				selected_index = i
+				break
+			end
+		end
+	end
+
 	-- Create a custom preview function for git commits
 	local function preview_commit(ctx)
-		local item = ctx.item
-		if not item or not item.hash then
+		local commit_item = ctx.item
+		if not commit_item or not commit_item.hash then
 			return false
 		end
 
 		-- Get the commit diff
-		local diff = git_command("show " .. item.hash)
+		local diff = git_command("show " .. commit_item.hash)
 		if not diff or diff == "" then
 			return false
 		end
 
 		-- Make the buffer modifiable
-		vim.api.nvim_buf_set_option(ctx.buf, "modifiable", true)
+		vim.bo[ctx.buf].modifiable = true
 
 		-- Set the preview content using vim API
 		local lines = {}
@@ -97,10 +108,10 @@ local function browse_commit_files()
 		vim.api.nvim_buf_set_lines(ctx.buf, 0, -1, false, lines)
 
 		-- Set the filetype to git/diff for proper syntax highlighting
-		vim.api.nvim_buf_set_option(ctx.buf, "filetype", "diff")
+		vim.bo[ctx.buf].filetype = "diff"
 
 		-- Set the buffer back to not modifiable
-		vim.api.nvim_buf_set_option(ctx.buf, "modifiable", false)
+		vim.bo[ctx.buf].modifiable = false
 
 		return true
 	end
@@ -111,14 +122,20 @@ local function browse_commit_files()
 		title = "Git Commits", -- Title for the picker
 		format = "text", -- Use a standard format
 		preview = preview_commit, -- Use our custom preview function
-		prompt = "Select a commit",
-		confirm = function(picker, item)
-			if not item or not item.hash then
+		prompt = "> ",
+		on_show = function(picker)
+			-- Set the cursor to the previously selected commit if any
+			if selected_commit_hash then
+				picker.list:view(selected_index)
+			end
+		end,
+		confirm = function(commits_picker, commit_item)
+			if not commit_item or not commit_item.hash then
 				vim.notify("No commit selected", vim.log.levels.WARN)
 				return
 			end
 
-			local commit_hash = item.hash
+			local commit_hash = commit_item.hash
 
 			-- Step 2: Show files picker for the selected commit
 			local files = get_commit_files(commit_hash)
@@ -129,19 +146,19 @@ local function browse_commit_files()
 
 			-- Create a custom preview function for files in a commit
 			local function preview_file(ctx)
-				local item = ctx.item
-				if not item or not item.path then
+				local file_item = ctx.item
+				if not file_item or not file_item.path then
 					return false
 				end
 
 				-- Get the file content from this commit
-				local file_content = git_command("show " .. commit_hash .. ":" .. item.path)
+				local file_content = git_command("show " .. commit_hash .. ":" .. file_item.path)
 				if not file_content or file_content == "" then
 					return false
 				end
 
 				-- Make the buffer modifiable
-				vim.api.nvim_buf_set_option(ctx.buf, "modifiable", true)
+				vim.bo[ctx.buf].modifiable = true
 
 				-- Set the preview content using vim API
 				local lines = {}
@@ -152,13 +169,13 @@ local function browse_commit_files()
 				vim.api.nvim_buf_set_lines(ctx.buf, 0, -1, false, lines)
 
 				-- Set the filetype for proper syntax highlighting based on the file extension
-				local filetype = vim.filetype.match({ filename = item.path })
+				local filetype = vim.filetype.match({ filename = file_item.path })
 				if filetype then
-					vim.api.nvim_buf_set_option(ctx.buf, "filetype", filetype)
+					vim.bo[ctx.buf].filetype = filetype
 				end
 
 				-- Set the buffer back to not modifiable
-				vim.api.nvim_buf_set_option(ctx.buf, "modifiable", false)
+				vim.bo[ctx.buf].modifiable = false
 
 				return true
 			end
@@ -169,15 +186,42 @@ local function browse_commit_files()
 				title = "Changed Files in Commit " .. commit_hash:sub(1, 7),
 				format = "text", -- Use text format for display
 				preview = preview_file, -- Use our custom preview function
-				prompt = "Select a file to open",
-				confirm = function(picker, file_item)
+				prompt = "> ",
+				-- Add custom action for going back to commits
+				actions = {
+					go_back = function(files_picker)
+						files_picker:close()
+						-- Start a new browser session with the current commit selected
+						vim.schedule(function()
+							browse_commit_files(commit_hash)
+						end)
+					end,
+				},
+				win = {
+					input = {
+						keys = {
+							-- Add a backspace key binding to go back
+							["<BS>"] = { "go_back", mode = { "n", "i" }, desc = "Go back to commits" },
+							-- Add a b key binding to go back (alternative)
+							["b"] = { "go_back", mode = "n", desc = "Go back to commits" },
+						},
+					},
+					list = {
+						keys = {
+							-- Add the same bindings to the list window
+							["<BS>"] = { "go_back", desc = "Go back to commits" },
+							["b"] = { "go_back", desc = "Go back to commits" },
+						},
+					},
+				},
+				confirm = function(files_picker, file_item)
 					if not file_item or not file_item.path then
 						vim.notify("No file selected", vim.log.levels.WARN)
 						return
 					end
 
 					-- Close the picker before opening the file
-					picker:close()
+					files_picker:close()
 
 					-- Step 3: Open the selected file
 					local file_path = file_item.path
@@ -187,7 +231,7 @@ local function browse_commit_files()
 
 					if current_file_exists then
 						-- Open the file in the current working tree
-						vim.cmd("edit " .. file_path)
+						vim.cmd.edit(file_path)
 					else
 						-- If file doesn't exist in the current working tree,
 						-- open it from the specific commit
@@ -209,11 +253,11 @@ local function browse_commit_files()
 							file_handle:close()
 
 							-- Open the temporary file
-							vim.cmd("edit " .. temp_file)
+							vim.cmd.edit(temp_file)
 							-- Set buffer as readonly
-							vim.cmd("setlocal readonly")
+							vim.opt_local.readonly = true
 							-- Set buffer title to show it's from a commit
-							vim.cmd("file " .. file_path .. " [" .. commit_hash .. "]")
+							vim.api.nvim_buf_set_name(0, file_path .. " [" .. commit_hash .. "]")
 						else
 							vim.notify("Failed to create temporary file", vim.log.levels.ERROR)
 						end

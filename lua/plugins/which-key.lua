@@ -25,6 +25,7 @@ return {
 			{ "<leader>bl", "<cmd>BufferLineCloseRight<cr>", desc = "Close all buffers to the right" },
 
 			{ "<leader>s", group = "Search" },
+			{ "<leader>sc", "<cmd>BrowseCommitFiles<cr>", desc = "Browse files in commit" },
 
 			{ "<leader>u", group = "Toggle" },
 
@@ -41,6 +42,7 @@ return {
 			{ "<leader>lF", "<cmd>TSToolsFixAll<cr>", desc = "Fix All" },
 			{ "<leader>ll", "<cmd>TSToolsFileReferences<cr>", desc = "File Reference" },
 			{ "<leader>lu", "<cmd>TSToolsRemoveUnused<cr>", desc = "Remove unused" },
+			{ "<leader>ly", "<cmd>CopyDiag<cr>", desc = "Copy diagnostic" },
 			{
 				"<leader>lf",
 				function()

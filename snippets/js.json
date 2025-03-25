@@ -1,0 +1,103 @@
+{
+  "Arrow function": {
+    "prefix": "ff",
+    "body": [
+      "($1) => $2"
+    ]
+  },
+  "Console.log using inspect": {
+    "prefix": "cli",
+    "body": [
+      "import util from 'util'",
+      "console.log(util.inspect($0, false, null, true))"
+    ]
+  },
+  "Performance measure": {
+    "prefix": "perf",
+    "body": [
+      "const start = Date.now()",
+      "const end = Date.now()",
+      "console.log(`Execution time: ${end - start} ms`)"
+    ]
+  },
+  "Async": {
+    "prefix": "as",
+    "body": [
+      "async $1"
+    ]
+  },
+  "Await": {
+    "prefix": "a",
+    "body": [
+      "await $1"
+    ]
+  },
+  "Add todo": {
+    "prefix": "t",
+    "body": [
+      "// TODO:$1"
+    ]
+  },
+  "Import styled-components": {
+    "prefix": "sc",
+    "body": [
+      "import styled from 'styled-components/native'"
+    ]
+  },
+  "Styled component": {
+    "prefix": "ss",
+    "body": [
+      "const $1 = styled$2`",
+      " $3",
+      "`"
+    ]
+  },
+  "Console.log with a string": {
+    "prefix": "cll",
+    "body": [
+      "console.log('$1 -> ', $1)"
+    ]
+  },
+  "Console.log": {
+    "prefix": "cl",
+    "body": [
+      "console.log($0)"
+    ]
+  },
+  "Import": {
+    "prefix": "im",
+    "body": [
+      "import { $2 } from '$1'"
+    ]
+  },
+  "Export default": {
+    "prefix": "ed",
+    "body": [
+      "export default $1"
+    ]
+  },
+  "Export const": {
+    "prefix": "ec",
+    "body": [
+      "export const $1"
+    ]
+  },
+  "Export": {
+    "prefix": "ex",
+    "body": [
+      "export $1 from '$2'"
+    ]
+  },
+  "const": {
+    "prefix": "c",
+    "body": [
+      "const $1"
+    ]
+  },
+  "return": {
+    "prefix": "r",
+    "body": [
+      "return "
+    ]
+  }
+}

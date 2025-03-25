@@ -1,5 +1,3 @@
-local M = {}
-
 local function format_diagnostic(diagnostic, bufname)
 	local severity = ""
 	if diagnostic.severity == 1 then
@@ -21,7 +19,7 @@ local function format_diagnostic(diagnostic, bufname)
 end
 
 -- Function to copy all diagnostics to clipboard
-function M.copy_diagnostics_to_clipboard()
+local function copy_diagnostics_to_clipboard()
 	local all_diagnostics = {}
 
 	-- Get diagnostics for all buffers
@@ -71,4 +69,8 @@ function M.copy_diagnostics_to_clipboard()
 	vim.notify(string.format("Copied %d diagnostics to clipboard", #all_diagnostics), vim.log.levels.INFO)
 end
 
-return M
+vim.api.nvim_create_user_command("CopyDiag", function()
+	copy_diagnostics_to_clipboard()
+end, {
+	desc = "Copy diagnostics to clipboard",
+})

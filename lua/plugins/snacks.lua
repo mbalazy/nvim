@@ -39,6 +39,27 @@ return {
         -- wo = { wrap = true } -- Wrap notifications
       }
     },
+    lazygit = {
+      -- configure = true, -- automatically configure LazyGit
+      config = {
+        os = {
+          editPreset = "nvim-remote",
+          -- editInTerminal = true,
+          open = 'nvim --server ' .. vim.v.servername .. ' --remote-tab {{filename}}',
+          openLink = 'open {{link}}',
+        },
+        keybinding = {
+          files = {
+            openFile = 'o',
+          },
+        },
+      },
+      -- -- Use a floating window for LazyGit
+      win = {
+        width = 0.9,   -- 90% of screen width
+        height = 0.9,  -- 90% of screen height
+      },
+    },
   },
   keys = {
     -- Top Pickers & Explorer
