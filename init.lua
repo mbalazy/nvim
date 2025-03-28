@@ -5,6 +5,8 @@ require("util.create_stash")
 require("util.compare_with_branch")
 require("util.file_from_commit")
 require("util.copy_diag")
+require("util.copy_filename")
+require("util.copy_hunk")
 
 vim.cmd("colorscheme tokyodark")
 vim.g.highlightedyank_highlight_duration = 150

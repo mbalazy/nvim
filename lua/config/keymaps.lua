@@ -24,6 +24,11 @@ keymap.set("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file", silent = true }
 keymap.set("n", "<leader>p", "ggVGp<CR>", { desc = "Paste in whole file", silent = true })
 keymap.set("n", "<leader>x", "<cmd>tabclose<CR>", { desc = "Close tab", silent = true })
 
+-- Copy filename utilities
+keymap.set("n", "<leader>Yf", "<cmd>CopyFilename<CR>", { desc = "Copy filename", silent = true })
+keymap.set("n", "<leader>Yp", "<cmd>CopyFilePath<CR>", { desc = "Copy file path", silent = true })
+keymap.set("n", "<leader>YP", "<cmd>CopyFileAbsolutePath<CR>", { desc = "Copy absolute path", silent = true })
+
 keymap.set("n", "≤", "<Cmd>BufferLineMovePrev<CR>", {})
 keymap.set("n", "≥", "<Cmd>BufferLineMoveNext<CR>", {})
 
