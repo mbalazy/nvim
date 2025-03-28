@@ -19,7 +19,10 @@ opt.termguicolors = true
 opt.signcolumn = "yes"
 opt.cmdheight = 1
 opt.scrolloff = 10
-opt.completeopt = "menuone,noinsert,noselect"
+opt.completeopt = "menuone,noinsert,noselect,fuzzy"
+
+-- Configure winborder for floating windows (new in 0.11)
+opt.winborder = "single"
 
 -- Behaviour
 opt.hidden = true
@@ -45,3 +48,6 @@ opt.showmode = false
 opt.foldmethod = "expr"
 opt.foldexpr = "nvim_treesitter#foldexpr()"
 opt.foldlevel = 99
+
+-- Enable asynchronous treesitter highlighting (new in 0.11)
+vim.g._ts_force_sync_parsing = false

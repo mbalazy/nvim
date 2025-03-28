@@ -90,6 +90,16 @@ local config = function()
 		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 	end
 
+	vim.diagnostic.config({
+		virtual_text = { current_line = false },
+		-- virtual_lines = { only_current_line = true },
+		severity_sort = true,
+		-- float = {
+		-- 	border = "single",
+		-- 	source = true,
+		-- },
+	})
+
 	-- local solhint = require("efmls-configs.linters.solhint")
 	local luacheck = require("efmls-configs.linters.luacheck")
 	local stylua = require("efmls-configs.formatters.stylua")
