@@ -7,6 +7,23 @@ return {
 		behaviour = {
 			enable_claude_text_editor_tool_mode = true,
 		},
+		windows = {
+			 --  "right" | "left" | "top" | "bottom"
+			position = "right", -- the position of the sidebar
+			wrap = true, -- similar to vim.o.wrap
+			width = 40, -- default % based on available width
+			sidebar_header = {
+				enabled = false, -- true, false to enable/disable the header
+			},
+			input = {
+				prefix = "> ",
+				height = 8, -- Height of the input window in vertical layout
+			},
+			edit = {
+				border = "rounded",
+				start_insert = true, -- Start insert mode when opening the edit window
+			},
+		},
 		-- openai = {
 		-- 	endpoint = "https://api.openai.com/v1",
 		-- 	model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
