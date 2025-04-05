@@ -5,7 +5,34 @@ local config = function()
 	local lspconfig = require("lspconfig")
 	local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-	-- lua
+	-- ESLint setup for modern projects with eslint.config.js (flat config)
+	lspconfig.eslint.setup({
+		capabilities = capabilities,
+		filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+		settings = {
+			-- Support for flat config
+			experimental = {
+				useFlatConfig = true,
+			},
+			codeAction = {
+				disableRuleComment = {
+					enable = true,
+					location = "separateLine",
+				},
+				showDocumentation = {
+					enable = true,
+				},
+			},
+			format = true,
+			packageManager = "npm",
+			validate = "on",
+			workingDirectory = {
+				mode = "location",
+			},
+		},
+	})
+
+	-- Other language servers (unchanged)
 	lspconfig.lua_ls.setup({
 		capabilities = capabilities,
 		settings = {
@@ -23,7 +50,7 @@ local config = function()
 		},
 	})
 
-	-- python
+	-- Remaining language server configurations
 	lspconfig.pyright.setup({
 		capabilities = capabilities,
 		settings = {
@@ -39,25 +66,21 @@ local config = function()
 		},
 	})
 
-	-- json
 	lspconfig.jsonls.setup({
 		capabilities = capabilities,
 		filetypes = { "json", "jsonc" },
 	})
 
-	-- bash
 	lspconfig.bashls.setup({
 		capabilities = capabilities,
 		filetypes = { "sh", "aliasrc" },
 	})
 
-	-- CSS
 	lspconfig.cssls.setup({
 		capabilities = capabilities,
 		filetypes = { "css", "scss", "less" },
 	})
 
-	--  css, sass, scss, less, svelte
 	lspconfig.emmet_ls.setup({
 		capabilities = capabilities,
 		filetypes = {
@@ -69,13 +92,11 @@ local config = function()
 			"html",
 		},
 	})
-	--
-	-- docker
+
 	lspconfig.dockerls.setup({
 		capabilities = capabilities,
 	})
 
-	-- C/C++
 	lspconfig.clangd.setup({
 		capabilities = capabilities,
 		cmd = {
@@ -84,6 +105,7 @@ local config = function()
 		},
 	})
 
+	-- Diagnostic configuration
 	for type, icon in pairs(diagnostic_signs) do
 		local hl = "DiagnosticSign" .. type
 		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
@@ -91,20 +113,13 @@ local config = function()
 
 	vim.diagnostic.config({
 		virtual_text = { current_line = false },
-		-- virtual_lines = { only_current_line = true },
 		severity_sort = true,
-		-- float = {
-		-- 	border = "single",
-		-- 	source = true,
-		-- },
 	})
 
-	-- local solhint = require("efmls-configs.linters.solhint")
 	local luacheck = require("efmls-configs.linters.luacheck")
 	local stylua = require("efmls-configs.formatters.stylua")
 	local flake8 = require("efmls-configs.linters.flake8")
 	local black = require("efmls-configs.formatters.black")
-	local eslint_d = require("efmls-configs.linters.eslint_d")
 	local prettier_d = require("efmls-configs.formatters.prettier_d")
 	local fixjson = require("efmls-configs.formatters.fixjson")
 	local shellcheck = require("efmls-configs.linters.shellcheck")
@@ -113,7 +128,7 @@ local config = function()
 	local cpplint = require("efmls-configs.linters.cpplint")
 	local clangformat = require("efmls-configs.formatters.clang_format")
 
-	-- configure efm server
+	-- Configure efm server for formatting tools
 	lspconfig.efm.setup({
 		filetypes = {
 			"lua",
@@ -133,28 +148,25 @@ local config = function()
 			"c",
 			"cpp",
 		},
-
 		init_options = {
 			documentFormatting = true,
 			documentRangeFormatting = true,
-			hover = true,
-			documentSymbol = true,
-			codeAction = true,
-			completion = true,
 		},
-
 		settings = {
 			languages = {
+				-- Formatting-only configs for JS/TS - linting handled by eslint-lsp
+				javascript = { prettier_d },
+				typescript = { prettier_d },
+				javascriptreact = { prettier_d },
+				typescriptreact = { prettier_d },
+				vue = { prettier_d },
+
+				-- Other languages with both linting and formatting
 				lua = { luacheck, stylua },
 				python = { flake8, black },
-				typescript = { eslint_d, prettier_d },
-				json = { eslint_d, fixjson },
-				jsonc = { eslint_d, fixjson },
+				json = { fixjson },
+				jsonc = { fixjson },
 				sh = { shellcheck, shfmt },
-				javascript = { eslint_d, prettier_d },
-				javascriptreact = { eslint_d, prettier_d },
-				typescriptreact = { eslint_d, prettier_d },
-				vue = { eslint_d, prettier_d },
 				markdown = { prettier_d },
 				docker = { hadolint, prettier_d },
 				html = { prettier_d },

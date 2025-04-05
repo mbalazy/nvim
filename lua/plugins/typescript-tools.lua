@@ -13,7 +13,7 @@ return {
 		settings = {
 			tsserver_path = nil,
 			publish_diagnostic_on = "change",
-			separate_diagnostic_server = true,
+			separate_diagnostic_server = false,
 			tsserver_plugins = {
 				"@styled/typescript-styled-plugin",
 				"@vue/typescript-plugin",
