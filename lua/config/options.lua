@@ -43,6 +43,7 @@ opt.modifiable = true
 opt.guicursor = "n-v-c:block,i-ci-ve:block,r-cr:hor20,o:hor50,a:Cursor/lCursor,sm:block"
 opt.encoding = "UTF-8"
 opt.showmode = false
+opt.jumpoptions = "stack,view"
 
 -- folds
 opt.foldmethod = "expr"

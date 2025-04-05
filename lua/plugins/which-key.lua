@@ -38,6 +38,7 @@ return {
 			{ "<leader>l", group = "LSP" },
 			{ "<leader>lo", "<cmd>TSToolsOrganizeImports<cr>", desc = "Organize Imports" },
 			{ "<leader>ls", "<cmd>TSToolsSortImports<cr>", desc = "Sort Imports" },
+			{ "<leader>lS", "<cmd>LspStart<cr>", desc = "Start LSP" },
 			{ "<leader>li", "<cmd>TSToolsAddMissingImports<cr>", desc = "Add Missing Imports" },
 			{ "<leader>lF", "<cmd>TSToolsFixAll<cr>", desc = "Fix All" },
 			{ "<leader>ll", "<cmd>TSToolsFileReferences<cr>", desc = "File Reference" },

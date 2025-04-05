@@ -14,7 +14,8 @@ return {
 				left_mouse_command = "buffer %d",
 				middle_mouse_command = nil,
 				indicator = {
-					icon = " ", -- A subtle indicator
+					-- icon = " ", -- A subtle indicator
+					-- icon = "|", -- A subtle indicator
 					-- icon = "▎", -- A subtle indicator
 					style = "icon",
 				},

@@ -16,11 +16,17 @@ return {
 
 			["<C-u>"] = { "scroll_documentation_up" },
 			["<C-d>"] = { "scroll_documentation_down" },
+			["<C-f>"] = {
+				function(cmp)
+					cmp.show_documentation({ focus = true })
+				end,
+			},
+      
 
 			["<Tab>"] = { "snippet_forward", "fallback" },
 			["<S-Tab>"] = { "snippet_backward", "fallback" },
 
-			["<C-space>"] = {
+			["<C-s>"] = {
 				function(cmp)
 					cmp.show({ providers = { "snippets" } })
 				end,
@@ -28,13 +34,16 @@ return {
 		},
 
 		appearance = {
-			-- Using 'mono' for 'Nerd Font Mono' to ensure icons are aligned
 			nerd_font_variant = "mono",
-			-- Extend the number of visible items from default 8 to 12
 		},
 
-		-- Show documentation popup only when manually triggered
-		completion = { documentation = { auto_show = true } },
+		completion = {
+			documentation = { auto_show = false },
+			menu = {
+				auto_show = true,
+				max_height = 15,
+			},
+		},
 
 		-- Default list of enabled providers
 		sources = {

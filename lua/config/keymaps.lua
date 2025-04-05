@@ -11,8 +11,8 @@ keymap.set("n", "<C-k>", "<C-w>k")
 keymap.set("n", "<leader>n", ":nohlsearch<CR>", { silent = true })
 
 -- buffers navigation
-keymap.set("n", "<S-l>", ":bn<CR>", { silent = true })
-keymap.set("n", "<S-h>", ":bp<CR>", { silent = true })
+keymap.set("n", "<S-l>", ":BufferLineCycleNext<CR>", { silent = true })
+keymap.set("n", "<S-h>", ":BufferLineCyclePrev<CR>", { silent = true })
 
 -- misc
 keymap.set("n", "<leader>y", ":%y+<CR>", { desc = "Copy whole file", silent = true })
