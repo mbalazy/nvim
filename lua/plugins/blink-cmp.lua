@@ -38,7 +38,7 @@ return {
 		},
 
 		completion = {
-			documentation = { auto_show = false },
+			documentation = { auto_show = true },
 			menu = {
 				auto_show = true,
 				max_height = 15,

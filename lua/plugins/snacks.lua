@@ -27,7 +27,18 @@ return {
       enabled = true,
       timeout = 2000,
     },
-    picker = { enabled = true },
+    picker = {
+      enabled = true,
+      config = function(opts)
+        -- In a monorepo, snacks might not detect the project root correctly.
+        -- This logic ensures that we always use the git root as the cwd for the picker.
+        local root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+        if vim.v.shell_error == 0 and root and root ~= "" then
+          opts.cwd = root
+        end
+        return opts
+      end,
+    },
     quickfile = { enabled = true },
     scope = { enabled = true },
     scroll = { enabled = false },

@@ -30,7 +30,7 @@ local mason_lspconfig = {
 			"clangd",
 			"dockerls",
 		},
-		automatic_installation = true,
+		automatic_installation = false,
 	},
 	event = "BufReadPre",
 	dependencies = "williamboman/mason.nvim",
