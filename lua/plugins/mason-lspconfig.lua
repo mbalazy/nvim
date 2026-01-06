@@ -20,7 +20,6 @@ local mason_lspconfig = {
 			"solidity_ls",
 			"efm",
 			"bashls",
-			"ts_ls",
 			"tailwindcss",
       "cssls",
 			"pyright",

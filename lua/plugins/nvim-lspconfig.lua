@@ -121,6 +121,8 @@ local config = function()
 	local flake8 = require("efmls-configs.linters.flake8")
 	local black = require("efmls-configs.formatters.black")
 	local prettier_d = require("efmls-configs.formatters.prettier_d")
+
+local biome = require('efmls-configs.formatters.biome')
 	local fixjson = require("efmls-configs.formatters.fixjson")
 	local shellcheck = require("efmls-configs.linters.shellcheck")
 	local shfmt = require("efmls-configs.formatters.shfmt")
@@ -155,10 +157,10 @@ local config = function()
 		settings = {
 			languages = {
 				-- Formatting-only configs for JS/TS - linting handled by eslint-lsp
-				javascript = { prettier_d },
-				typescript = { prettier_d },
-				javascriptreact = { prettier_d },
-				typescriptreact = { prettier_d },
+				javascript = { biome },
+				typescript = { biome },
+				javascriptreact = { biome },
+				typescriptreact = { biome },
 				vue = { prettier_d },
 
 				-- Other languages with both linting and formatting

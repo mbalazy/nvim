@@ -29,15 +29,28 @@ return {
     },
     picker = {
       enabled = true,
-      config = function(opts)
-        -- In a monorepo, snacks might not detect the project root correctly.
-        -- This logic ensures that we always use the git root as the cwd for the picker.
-        local root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
-        if vim.v.shell_error == 0 and root and root ~= "" then
-          opts.cwd = root
-        end
-        return opts
-      end,
+      sources = {
+        explorer = { hidden = true },
+      },
+      -- config = function(opts)
+      --   -- In a monorepo, snacks might not detect the project root correctly.
+      --   -- This logic ensures that we always use the git root as the cwd for the picker.
+      --   local root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+      --   if vim.v.shell_error == 0 and root and root ~= "" then
+      --     opts.cwd = root
+      --   end
+      --   return opts
+      -- end,
+      win = {
+        input = {
+          keys = {
+            ["<c-u>"] = { "preview_scroll_up", mode = { "i", "n" } },
+            ["<c-d>"] = { "preview_scroll_down", mode = { "i", "n" } },
+            ["<c-f>"] = { "list_scroll_down", mode = { "i", "n" } },
+            ["<c-b>"] = { "list_scroll_up", mode = { "i", "n" } },
+          },
+        },
+      },
     },
     quickfile = { enabled = true },
     scope = { enabled = true },

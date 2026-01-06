@@ -1,3 +1,11 @@
+-- Fix PATH for GUI Neovim (ensure homebrew binaries are available)
+if vim.fn.has("mac") == 1 then
+  local homebrew_bin = "/opt/homebrew/bin"
+  if vim.fn.isdirectory(homebrew_bin) == 1 then
+    vim.env.PATH = homebrew_bin .. ":" .. vim.env.PATH
+  end
+end
+
 require("config.lazy")
 require("config.sessions")
 require("util.diff_upload")
