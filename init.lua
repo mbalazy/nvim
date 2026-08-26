@@ -17,11 +17,11 @@ require("util.copy_filename")
 require("util.clear_bufferline")
 
 vim.cmd("colorscheme tokyodark")
-vim.g.highlightedyank_highlight_duration = 150
 
-vim.api.nvim_create_autocmd("LspAttach", {
-	once = true,
+-- Highlight yanked text (replaces vim-highlightedyank)
+vim.api.nvim_create_autocmd("TextYankPost", {
+	group = vim.api.nvim_create_augroup("user_highlight_yank", { clear = true }),
 	callback = function()
-		vim.lsp.buf_request_sync_options = { timeout_ms = 5000 }
+		vim.hl.on_yank({ timeout = 150 })
 	end,
 })

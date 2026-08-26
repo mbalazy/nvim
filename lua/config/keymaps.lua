@@ -64,6 +64,15 @@ end, { silent = true, desc = "Shrink selection to child node" })
 
 keymap.set("n", "<leader>h", ":normal! 0<CR>", { desc = "Scroll to left", noremap = true, silent = true })
 
+-- Comment toggle (built-in `gc` operator, replaces Comment.nvim).
+-- Normal mode keeps the cursor where it was (Comment.nvim `sticky` behaviour).
+keymap.set("n", "<leader>/", function()
+	local pos = vim.api.nvim_win_get_cursor(0)
+	vim.cmd.normal({ vim.v.count1 .. "gcc", bang = false })
+	pcall(vim.api.nvim_win_set_cursor, 0, pos)
+end, { desc = "Toggle comment line" })
+keymap.set("x", "<leader>/", "gc", { remap = true, desc = "Toggle comment" })
+
 keymap.set("i", "kj", "<Esc>")
 keymap.set("v", "<", "<gv")
 keymap.set("v", ">", ">gv")
