@@ -35,27 +35,32 @@ keymap.set("n", "≥", "<Cmd>BufferLineMoveNext<CR>", {})
 keymap.set("n", "<A-h>", "<Cmd>BufferLineCyclePrev<CR>", {})
 keymap.set("n", "<A-l>", "<Cmd>BufferLineCycleNext<CR>", {})
 
--- go to only errors
+-- Diagnostics navigation (vim.diagnostic.jump - goto_next/goto_prev are deprecated)
 keymap.set("n", "[D", function()
-	vim.diagnostic.goto_prev({
-		severity = vim.diagnostic.severity.ERROR,
-	})
-end, { silent = true })
+	vim.diagnostic.jump({ count = -1, float = true, severity = vim.diagnostic.severity.ERROR })
+end, { silent = true, desc = "Previous error" })
 
 keymap.set("n", "]D", function()
-	vim.diagnostic.goto_next({
-		severity = vim.diagnostic.severity.ERROR,
-	})
-end, { silent = true })
+	vim.diagnostic.jump({ count = 1, float = true, severity = vim.diagnostic.severity.ERROR })
+end, { silent = true, desc = "Next error" })
 
--- go to warnings
 keymap.set("n", "]d", function()
-	vim.diagnostic.goto_next()
-end, { silent = true })
+	vim.diagnostic.jump({ count = 1, float = true })
+end, { silent = true, desc = "Next diagnostic" })
 
 keymap.set("n", "[d", function()
-	vim.diagnostic.goto_prev()
-end, { silent = true })
+	vim.diagnostic.jump({ count = -1, float = true })
+end, { silent = true, desc = "Previous diagnostic" })
+
+-- Treesitter incremental selection (built into Neovim 0.12; replaces the
+-- nvim-treesitter `incremental_selection` module from the master branch).
+-- <C-s>: select node at cursor / grow to parent, <BS>: shrink to child.
+keymap.set({ "n", "x" }, "<C-s>", function()
+	vim.treesitter.select("parent")
+end, { silent = true, desc = "Select treesitter node / parent" })
+keymap.set("x", "<BS>", function()
+	vim.treesitter.select("child")
+end, { silent = true, desc = "Shrink selection to child node" })
 
 keymap.set("n", "<leader>h", ":normal! 0<CR>", { desc = "Scroll to left", noremap = true, silent = true })
 

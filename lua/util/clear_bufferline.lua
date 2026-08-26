@@ -13,7 +13,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "WinEnter", "VimEnter",
 			-- The exact pattern may need adjustment depending on how bufferline names its buffer
 			if buf_name:match("bufferline") or vim.bo[buf].filetype == "bufferline" then
 				-- Set winhighlight to override all backgrounds
-				vim.api.nvim_win_set_option(win, "winhighlight", "Normal:TransparentBG,NormalNC:TransparentBG")
+				vim.wo[win].winhighlight = "Normal:TransparentBG,NormalNC:TransparentBG"
 			end
 		end
 	end,
