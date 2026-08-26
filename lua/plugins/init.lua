@@ -1,6 +1,4 @@
 return {
-	{ "folke/neoconf.nvim" },
-	{ "HiPhish/rainbow-delimiters.nvim" },
 	{ "nvim-tree/nvim-web-devicons", opts = {} },
 	{
 		"folke/lazydev.nvim",
@@ -14,4 +12,3 @@ return {
 		},
 	},
 }
-
