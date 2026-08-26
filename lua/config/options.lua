@@ -47,8 +47,6 @@ opt.jumpoptions = "stack,view"
 
 -- folds
 opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 opt.foldlevel = 99
 
--- Enable asynchronous treesitter highlighting (new in 0.11)
-vim.g._ts_force_sync_parsing = false
