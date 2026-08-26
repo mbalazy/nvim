@@ -1,10 +1,16 @@
 local session = require("config.sessions")
+
+local win_width = 0.90
+local win_height = 0.88
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
   opts = {
     bigfile = { enabled = true },
+    -- DEBUG: wyłączone tymczasowo
+    debug = { enabled = false },
 		dashboard = {
 			enabled = true,
 			preset = {
@@ -21,6 +27,22 @@ return {
 			},
 		},
     explorer = { enabled = true },
+    image = {
+      enabled = true,
+      doc = {
+        inline = false,
+        float = false,
+        max_width = 80,
+        max_height = 40,
+      },
+      convert = {
+        notify = true,
+        mermaid = function()
+          local theme = vim.o.background == "light" and "neutral" or "dark"
+          return { "-i", "{src}", "-o", "{file}", "-b", "transparent", "-t", theme, "-s", "{scale}" }
+        end,
+      },
+    },
     indent = { enabled = false },
     input = { enabled = true },
     notifier = {
@@ -29,8 +51,14 @@ return {
     },
     picker = {
       enabled = true,
+      layout = {
+        layout = {
+          width = win_width,
+          height = win_height,
+        },
+      },
       sources = {
-        explorer = { hidden = true },
+        explorer = { hidden = true, ignored = true },
       },
       -- config = function(opts)
       --   -- In a monorepo, snacks might not detect the project root correctly.
@@ -78,21 +106,22 @@ return {
           },
         },
       },
-      -- -- Use a floating window for LazyGit
       win = {
-        width = 0.9,   -- 90% of screen width
-        height = 0.9,  -- 90% of screen height
+        width = win_width,
+        height = win_height,
       },
     },
   },
   keys = {
+    -- Image
+    { "<leader>i", function() Snacks.image.hover() end, desc = "Preview Image/Diagram" },
     -- Top Pickers & Explorer
     { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
     { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
     { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
     { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
     { "<leader>N", function() Snacks.picker.notifications() end, desc = "Notification History" },
-    { "<leader>E", function() Snacks.picker.explorer() end, desc = "File Explorer" },
+    { "<leader>E", function() Snacks.picker.explorer({ layout = { preset = "sidebar", preview = false, layout = { width = 40, min_width = 40, height = 0 } } }) end, desc = "File Explorer" },
 		{
 			"<leader>e",
 			function()

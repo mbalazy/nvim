@@ -1,8 +1,5 @@
 local keymap = vim.keymap
 
---  todo: dont require - make this fn's global cmd's
-local create_and_upload_diff = require("util.diff_upload").create_and_upload_diff
-
 -- dir navigation
 keymap.set("n", "<C-h>", "<C-w>h")
 keymap.set("n", "<C-l>", "<C-w>l")
@@ -17,7 +14,7 @@ keymap.set("n", "<S-h>", ":BufferLineCyclePrev<CR>", { silent = true })
 -- misc
 keymap.set("n", "<leader>y", ":%y+<CR>", { desc = "Copy whole file", silent = true })
 
-keymap.set("n", "<leader>gb", create_and_upload_diff, { noremap = true, desc = "Upload diff to SSH" })
+keymap.set("n", "<leader>gb", function() require("util.diff_upload").create_and_upload_diff() end, { noremap = true, desc = "Upload diff to SSH" })
 keymap.set("n", "<leader>gO", "<cmd>GitStashNamed<cr>", { noremap = true, desc = "Create Stash" })
 keymap.set("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file", silent = true })
 
@@ -26,6 +23,9 @@ keymap.set("n", "<leader>x", "<cmd>tabclose<CR>", { desc = "Close tab", silent =
 
 -- Copy filename utilities
 keymap.set("n", "<leader>Yf", "<cmd>CopyFilename<CR>", { desc = "Copy filename", silent = true })
+keymap.set("n", "<leader>Yl", function()
+	vim.fn.setreg("+", vim.fn.line("."))
+end, { desc = "Copy line number", silent = true })
 keymap.set("n", "<leader>Yp", "<cmd>CopyFilePath<CR>", { desc = "Copy file path", silent = true })
 keymap.set("n", "<leader>YP", "<cmd>CopyFileAbsolutePath<CR>", { desc = "Copy absolute path", silent = true })
 
@@ -63,6 +63,13 @@ keymap.set("i", "kj", "<Esc>")
 keymap.set("v", "<", "<gv")
 keymap.set("v", ">", ">gv")
 
--- Workspace operations
-vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename symbol" })
-vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, { desc = "Code actions" })
+-- LSP operations (deferred to avoid loading vim.lsp at startup)
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(ev)
+		local buf = ev.buf
+		keymap.set("n", "K", vim.lsp.buf.hover, { buffer = buf, desc = "Hover documentation" })
+		keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = buf, desc = "Rename symbol" })
+		keymap.set("n", "<leader>la", vim.lsp.buf.code_action, { buffer = buf, desc = "Code actions" })
+		keymap.set("n", "<leader>lf", vim.lsp.buf.format, { buffer = buf, desc = "Format file" })
+	end,
+})

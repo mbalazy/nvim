@@ -19,16 +19,9 @@ require("util.clear_bufferline")
 vim.cmd("colorscheme tokyodark")
 vim.g.highlightedyank_highlight_duration = 150
 
-vim.lsp.buf_request_sync_options = {
-	timeout_ms = 5000,
-}
-
-require("nvim-autopairs").setup({
-	disable_in_macro = true,
-	check_ts = true,
-	ts_config = {
-		lua = { "string" },
-		javascript = { "template_string" },
-		java = false,
-	},
+vim.api.nvim_create_autocmd("LspAttach", {
+	once = true,
+	callback = function()
+		vim.lsp.buf_request_sync_options = { timeout_ms = 5000 }
+	end,
 })

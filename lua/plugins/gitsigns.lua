@@ -147,6 +147,6 @@ end
 
 return {
 	"lewis6991/gitsigns.nvim",
-	lazy = false,
+	event = "BufReadPre",
 	config = config,
 }

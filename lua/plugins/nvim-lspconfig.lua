@@ -2,15 +2,19 @@ local diagnostic_signs = require("util.icons").diagnostic_signs
 
 local config = function()
 	require("neoconf").setup({})
-	local lspconfig = require("lspconfig")
 	local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-	-- ESLint setup for modern projects with eslint.config.js (flat config)
-	lspconfig.eslint.setup({
+	-- Global LSP config (applies to all servers)
+	vim.lsp.config("*", {
 		capabilities = capabilities,
-		filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+	})
+
+	-- ESLint setup for modern projects with eslint.config.js (flat config)
+	vim.lsp.config("astro", {})
+
+	vim.lsp.config("eslint", {
+		filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "astro" },
 		settings = {
-			-- Support for flat config
 			experimental = {
 				useFlatConfig = true,
 			},
@@ -32,9 +36,7 @@ local config = function()
 		},
 	})
 
-	-- Other language servers (unchanged)
-	lspconfig.lua_ls.setup({
-		capabilities = capabilities,
+	vim.lsp.config("lua_ls", {
 		settings = {
 			Lua = {
 				diagnostics = {
@@ -50,9 +52,7 @@ local config = function()
 		},
 	})
 
-	-- Remaining language server configurations
-	lspconfig.pyright.setup({
-		capabilities = capabilities,
+	vim.lsp.config("pyright", {
 		settings = {
 			pyright = {
 				disableOrganizeImports = false,
@@ -66,23 +66,19 @@ local config = function()
 		},
 	})
 
-	lspconfig.jsonls.setup({
-		capabilities = capabilities,
+	vim.lsp.config("jsonls", {
 		filetypes = { "json", "jsonc" },
 	})
 
-	lspconfig.bashls.setup({
-		capabilities = capabilities,
+	vim.lsp.config("bashls", {
 		filetypes = { "sh", "aliasrc" },
 	})
 
-	lspconfig.cssls.setup({
-		capabilities = capabilities,
+	vim.lsp.config("cssls", {
 		filetypes = { "css", "scss", "less" },
 	})
 
-	lspconfig.emmet_ls.setup({
-		capabilities = capabilities,
+	vim.lsp.config("emmet_ls", {
 		filetypes = {
 			"css",
 			"sass",
@@ -93,36 +89,37 @@ local config = function()
 		},
 	})
 
-	lspconfig.dockerls.setup({
-		capabilities = capabilities,
-	})
+	vim.lsp.config("dockerls", {})
 
-	lspconfig.clangd.setup({
-		capabilities = capabilities,
+	vim.lsp.config("clangd", {
 		cmd = {
 			"clangd",
 			"--offset-encoding=utf-16",
 		},
 	})
 
-	-- Diagnostic configuration
-	for type, icon in pairs(diagnostic_signs) do
-		local hl = "DiagnosticSign" .. type
-		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-	end
-
-	vim.diagnostic.config({
-		virtual_text = { current_line = false },
-		severity_sort = true,
+	-- Wyłącz omnisharp (używamy csharp_ls)
+	vim.lsp.config("omnisharp", {
+		enabled = false,
 	})
 
+	-- C# / .NET (csharp_ls - lżejszy niż omnisharp)
+	vim.lsp.config("csharp_ls", {
+		cmd = { vim.fn.expand("~/.dotnet/tools/csharp-ls") },
+		cmd_env = {
+			DOTNET_ROOT = "/opt/homebrew/opt/dotnet@8/libexec",
+		},
+		filetypes = { "cs" },
+		root_markers = { "*.sln", "*.csproj", ".git" },
+	})
+
+	-- EFM server for formatting tools
 	local luacheck = require("efmls-configs.linters.luacheck")
 	local stylua = require("efmls-configs.formatters.stylua")
 	local flake8 = require("efmls-configs.linters.flake8")
 	local black = require("efmls-configs.formatters.black")
 	local prettier_d = require("efmls-configs.formatters.prettier_d")
-
-local biome = require('efmls-configs.formatters.biome')
+	local biome = require("efmls-configs.formatters.biome")
 	local fixjson = require("efmls-configs.formatters.fixjson")
 	local shellcheck = require("efmls-configs.linters.shellcheck")
 	local shfmt = require("efmls-configs.formatters.shfmt")
@@ -130,8 +127,7 @@ local biome = require('efmls-configs.formatters.biome')
 	local cpplint = require("efmls-configs.linters.cpplint")
 	local clangformat = require("efmls-configs.formatters.clang_format")
 
-	-- Configure efm server for formatting tools
-	lspconfig.efm.setup({
+	vim.lsp.config("efm", {
 		filetypes = {
 			"lua",
 			"python",
@@ -156,14 +152,11 @@ local biome = require('efmls-configs.formatters.biome')
 		},
 		settings = {
 			languages = {
-				-- Formatting-only configs for JS/TS - linting handled by eslint-lsp
 				javascript = { biome },
 				typescript = { biome },
 				javascriptreact = { biome },
 				typescriptreact = { biome },
 				vue = { prettier_d },
-
-				-- Other languages with both linting and formatting
 				lua = { luacheck, stylua },
 				python = { flake8, black },
 				json = { fixjson },
@@ -178,6 +171,36 @@ local biome = require('efmls-configs.formatters.biome')
 			},
 		},
 	})
+
+	-- Enable all configured LSP servers
+	vim.lsp.enable({
+		"astro",
+		"eslint",
+		"lua_ls",
+		"pyright",
+		"jsonls",
+		"bashls",
+		"cssls",
+		"emmet_ls",
+		"dockerls",
+		"clangd",
+		"efm",
+		"csharp_ls",
+	})
+
+	-- Diagnostic configuration (nowy sposób dla nvim 0.11+)
+	vim.diagnostic.config({
+		virtual_text = { current_line = false },
+		severity_sort = true,
+		signs = {
+			text = {
+				[vim.diagnostic.severity.ERROR] = diagnostic_signs.Error,
+				[vim.diagnostic.severity.WARN] = diagnostic_signs.Warn,
+				[vim.diagnostic.severity.HINT] = diagnostic_signs.Hint,
+				[vim.diagnostic.severity.INFO] = diagnostic_signs.Info,
+			},
+		},
+	})
 end
 
 return {
@@ -185,7 +208,19 @@ return {
 	config = config,
 	event = "VeryLazy",
 	dependencies = {
-		"windwp/nvim-autopairs",
+		{
+			"windwp/nvim-autopairs",
+			event = "InsertEnter",
+			opts = {
+				disable_in_macro = true,
+				check_ts = true,
+				ts_config = {
+					lua = { "string" },
+					javascript = { "template_string" },
+					java = false,
+				},
+			},
+		},
 		"williamboman/mason.nvim",
 		"creativenull/efmls-configs-nvim",
 		"saghen/blink.cmp",

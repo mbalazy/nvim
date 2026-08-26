@@ -34,7 +34,9 @@ return {
 				"python",
 				"vue",
 				"svelte",
+				"astro",
 				"toml",
+				"c_sharp",
 			},
 			auto_install = true,
        highlight = {

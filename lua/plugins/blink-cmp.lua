@@ -6,6 +6,14 @@ return {
 	-- use a release tag to download pre-built binaries
 	version = "1.*",
 
+	-- workaround: blink-cmp.lua:2 indexes vim.lsp.config['*'] which is nil
+	-- until a global LSP config is set. Fixed upstream (f85eb62) but not released yet.
+	init = function()
+		if vim.fn.has("nvim-0.11") == 1 and vim.lsp.config and not vim.lsp.config["*"] then
+			vim.lsp.config("*", {})
+		end
+	end,
+
 	opts = {
 		-- Using 'default' preset for mappings similar to built-in completions (C-y to accept)
 		keymap = {
