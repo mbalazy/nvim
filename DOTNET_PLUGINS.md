@@ -3,7 +3,7 @@
 ## Obecny stan
 
 **Działa:**
-- LSP: csharp-ls
+- LSP: csharp-ls (`dotnet tool install -g csharp-ls --version 0.16.0` - nowsze wersje wymagają nowszego SDK niż .NET 8)
 - Completion: blink.cmp + friendly-snippets
 - Nawigacja LSP: gd, gr, gI, gy (snacks.nvim)
 - Formatery: EFM (brak C# formattera)

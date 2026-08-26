@@ -33,10 +33,10 @@ Rollback configu: `git revert` odpowiednich commitów. Rollback Neovima: brew ni
 `neovim@0.11`; najprościej pobrać tarball `v0.11.x` z GitHub releases (jak zrobiłem z 0.12.5
 do testów) albo `brew extract`.
 
-## Propozycje (nie wdrożone - Twoja decyzja)
+## Propozycje
 
-Kolejność wg wartości / ryzyka. Wszystko poniżej to zmiany zachowania albo porządki, więc
-świadomie zostawiłem je do akceptacji.
+**Status (runda 2, ten sam dzień): wdrożone sekcje A-G oraz I** - szczegóły na końcu pliku.
+Niewdrożone zostały tylko punkty informacyjne (H) i `mmdc` (F).
 
 ### A. Martwy kod i konfiguracja (niskie ryzyko, szybkie)
 
@@ -135,3 +135,39 @@ Kolejność wg wartości / ryzyka. Wszystko poniżej to zmiany zachowania albo p
 
 Plan jest OK, ale krok zero to instalacja `csharp-ls` (dziś nie istnieje). `netcoredbg` i
 `csharpier` też nie są zainstalowane. Bez tego cała sekcja "Działa" w dokumencie jest na wyrost.
+
+## Runda 2 - co zostało wdrożone
+
+- **Sesje** (`lua/config/sessions.lua`): root repo liczony przez `vim.system({"git", ...})`
+  bez shella - hook zsh-a dopisywał "Using Node v22.12.0" do nazwy pliku sesji.
+  `sessionoptions` bez `folds` (mksession zapisywał `normal! zo`, które przy treesitterowych
+  foldach kończyło się `E490` i przerywało ładowanie). Ładowanie przez `silent! source`, więc
+  stare pliki sesji z foldami też wchodzą. Sześć plików `git_Using Node v*_...vim` w
+  `~/.local/share/nvim/sessions` przemianowane na właściwe nazwy; starszy plik fable-app
+  został jako `*.pre-2026-08-26.bak`.
+- **A. Porządki**: skasowane specy `fzf`, `lspsaga`, `nvim-cmp`, `nvim-tree`, `trouble`
+  (+ `util/keymapper.lua`, używany tylko przez trouble), `neoconf` + `neoconf.json`,
+  `vim.lsp.buf_request_sync_options`, blok `omnisharp`, `lua_ls.workspace.library`,
+  `bashls` z `aliasrc`; `options.lua` bez duplikatów; `clear_bufferline.lua` to już tylko
+  autocmd na highlighty; `automatic_installation` usunięte; repo Masona -> `mason-org/*`.
+  `lazy-lock.json` bez martwych wpisów.
+- **B. Wbudowane zamiast pluginów**: `Comment.nvim` -> `gc`/`gcc` z `<leader>/` (normal i
+  visual, `lua/config/keymaps.lua`); `vim-highlightedyank` -> `vim.hl.on_yank` (150 ms,
+  `init.lua`).
+- **C. Keymapy**: z `snacks.lua` wyleciał martwy `<leader>/` (grep) i zdublowany `<leader>sb`
+  (zostaje `lines`), `<leader>st` ma poprawny opis, `<leader>lf` tylko w `LspAttach`.
+- **D. LSP**: `typescript-tools.nvim` -> **vtsls** (Mason). Komendy `<leader>lo/ls/li/lF/lu/ll`
+  są w `lua/util/typescript.lua` jako code actions / komendy vtsls (organize, sort, add
+  missing imports, fix all, remove unused, file references -> quickfix). Inlay hints
+  przeniesione 1:1. Plugin `@vue/typescript-plugin` bierze się z Masonowego
+  `vue-language-server`, `vue_ls` włączony. Włączone `tailwindcss` i `solidity_ls`
+  (attachują się tylko przy własnych root markerach). Mason doinstalował `shfmt`, `hadolint`,
+  `fixjson`, `cpplint`, `clang-format`, `vtsls`; `emmet-language-server` odinstalowany.
+- **E. Treesitter**: bez `syntax=ON` na wierzchu i bez wyjątku dla `html` - czysty treesitter.
+  To jedyna zmiana czysto wizualna, obejrzyj kolory w TS/TSX/HTML.
+- **F.** `rocks.enabled = false` w lazy.
+- **G. util**: `diff_upload.lua` (`buf_temp` poza gałęzią), `create_stash.lua` (nazwa stasha
+  jako argument listy, bez cytowania shella), `file_from_commit.lua` (nieużywany argument).
+- **I. .NET**: `csharp-ls` zainstalowany jako `dotnet tool` w wersji **0.16.0** - nowsze
+  wersje nie instalują się na SDK .NET 8 ("DotnetToolSettings.xml was not found").
+  `netcoredbg` i `csharpier` nadal nie ma.
