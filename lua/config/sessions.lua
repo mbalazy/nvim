@@ -2,10 +2,15 @@ local M = {}
 -- Session management keybindings for both Git repositories and regular directories
 
 local function get_root()
-	-- First try to get git root
-	local git_dir = vim.fn.system("git rev-parse --show-toplevel 2> /dev/null"):gsub("\n", "")
-	if vim.v.shell_error == 0 and git_dir ~= "" then
-		return git_dir, true -- Return git directory and flag indicating it's a git repo
+	-- First try to get git root. Run git directly (no shell): shell rc hooks
+	-- can print extra lines (e.g. "Using Node v22.12.0") that would end up in
+	-- the session file name.
+	local res = vim.system({ "git", "rev-parse", "--show-toplevel" }, { text = true, cwd = vim.fn.getcwd() }):wait()
+	if res.code == 0 then
+		local git_dir = vim.trim(res.stdout or "")
+		if git_dir ~= "" then
+			return git_dir, true -- Return git directory and flag indicating it's a git repo
+		end
 	end
 
 	-- If not in a git repo, use current working directory
@@ -48,7 +53,7 @@ local function save_session()
 	-- Create session directory if it doesn't exist
 	vim.fn.mkdir(session_dir, "p")
 
-	vim.cmd("mksession! " .. session_file)
+	vim.cmd("mksession! " .. vim.fn.fnameescape(session_file))
 
 	local msg_prefix = is_git and "Git repository" or "Directory"
 	vim.notify("Session saved for " .. msg_prefix .. ": " .. root, vim.log.levels.INFO)
@@ -67,7 +72,9 @@ local function load_session()
 	local session_file = get_session_file()
 
 	if vim.fn.filereadable(session_file) == 1 then
-		vim.cmd("source " .. session_file)
+		-- `silent!`: keep going when a line in an old session file fails
+		-- (e.g. `normal! zo` before treesitter folds exist -> E490).
+		vim.cmd("silent! source " .. vim.fn.fnameescape(session_file))
 
 		local msg_prefix = is_git and "Git repository" or "Directory"
 		vim.notify("Session loaded for " .. msg_prefix .. ": " .. root, vim.log.levels.INFO)
@@ -84,7 +91,7 @@ end
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead", "VimLeave" }, {
 	callback = function()
 		if vim.g.active_session and vim.fn.filereadable(vim.g.active_session) == 1 then
-			vim.cmd("mksession! " .. vim.g.active_session)
+			vim.cmd("mksession! " .. vim.fn.fnameescape(vim.g.active_session))
 		end
 	end,
 })
