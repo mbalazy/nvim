@@ -104,8 +104,10 @@ local config = function()
 	})
 
 	-- C# / .NET (csharp_ls - lżejszy niż omnisharp)
+	-- Install: `dotnet tool install -g csharp-ls` (only enabled when the binary exists).
+	local csharp_ls_bin = vim.fn.expand("~/.dotnet/tools/csharp-ls")
 	vim.lsp.config("csharp_ls", {
-		cmd = { vim.fn.expand("~/.dotnet/tools/csharp-ls") },
+		cmd = { csharp_ls_bin },
 		cmd_env = {
 			DOTNET_ROOT = "/opt/homebrew/opt/dotnet@8/libexec",
 		},
@@ -173,7 +175,7 @@ local config = function()
 	})
 
 	-- Enable all configured LSP servers
-	vim.lsp.enable({
+	local servers = {
 		"astro",
 		"eslint",
 		"lua_ls",
@@ -185,8 +187,11 @@ local config = function()
 		"dockerls",
 		"clangd",
 		"efm",
-		"csharp_ls",
-	})
+	}
+	if vim.fn.executable(csharp_ls_bin) == 1 then
+		table.insert(servers, "csharp_ls")
+	end
+	vim.lsp.enable(servers)
 
 	-- Diagnostic configuration (nowy sposób dla nvim 0.11+)
 	vim.diagnostic.config({
