@@ -1,7 +1,6 @@
 local diagnostic_signs = require("util.icons").diagnostic_signs
 
 local config = function()
-	require("neoconf").setup({})
 	local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 	-- Global LSP config (applies to all servers)
@@ -36,17 +35,12 @@ local config = function()
 		},
 	})
 
+	-- lua_ls: workspace libraries come from lazydev.nvim
 	vim.lsp.config("lua_ls", {
 		settings = {
 			Lua = {
 				diagnostics = {
 					globals = { "vim" },
-				},
-				workspace = {
-					library = {
-						vim.fn.expand("$VIMRUNTIME/lua"),
-						vim.fn.expand("$HOME") .. "/nvim/lua",
-					},
 				},
 			},
 		},
@@ -70,9 +64,7 @@ local config = function()
 		filetypes = { "json", "jsonc" },
 	})
 
-	vim.lsp.config("bashls", {
-		filetypes = { "sh", "aliasrc" },
-	})
+	vim.lsp.config("bashls", {})
 
 	vim.lsp.config("cssls", {
 		filetypes = { "css", "scss", "less" },
@@ -98,11 +90,6 @@ local config = function()
 		},
 	})
 
-	-- Wyłącz omnisharp (używamy csharp_ls)
-	vim.lsp.config("omnisharp", {
-		enabled = false,
-	})
-
 	-- C# / .NET (csharp_ls - lżejszy niż omnisharp)
 	-- Install: `dotnet tool install -g csharp-ls` (only enabled when the binary exists).
 	local csharp_ls_bin = vim.fn.expand("~/.dotnet/tools/csharp-ls")
@@ -113,6 +100,38 @@ local config = function()
 		},
 		filetypes = { "cs" },
 		root_markers = { "*.sln", "*.csproj", ".git" },
+	})
+
+	-- TypeScript / JavaScript: vtsls (replaces typescript-tools.nvim).
+	-- Vue support: @vue/typescript-plugin from Mason's vue-language-server.
+	local vue_plugin_path = vim.fn.stdpath("data")
+		.. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+	local inlay_hints = {
+		parameterNames = { enabled = "all", suppressWhenArgumentMatchesName = false },
+		parameterTypes = { enabled = true },
+		variableTypes = { enabled = true },
+		propertyDeclarationTypes = { enabled = true },
+		functionLikeReturnTypes = { enabled = true },
+		enumMemberValues = { enabled = true },
+	}
+	vim.lsp.config("vtsls", {
+		filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+		settings = {
+			vtsls = {
+				tsserver = {
+					globalPlugins = {
+						{
+							name = "@vue/typescript-plugin",
+							location = vue_plugin_path,
+							languages = { "vue" },
+							configNamespace = "typescript",
+						},
+					},
+				},
+			},
+			typescript = { inlayHints = inlay_hints },
+			javascript = { inlayHints = inlay_hints },
+		},
 	})
 
 	-- EFM server for formatting tools
@@ -178,6 +197,10 @@ local config = function()
 	local servers = {
 		"astro",
 		"eslint",
+		"vtsls",
+		"vue_ls",
+		"tailwindcss",
+		"solidity_ls",
 		"lua_ls",
 		"pyright",
 		"jsonls",
@@ -226,7 +249,7 @@ return {
 				},
 			},
 		},
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 		"creativenull/efmls-configs-nvim",
 		"saghen/blink.cmp",
 	},

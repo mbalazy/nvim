@@ -16,6 +16,7 @@ return {
 		local wk = require("which-key")
 		--  todo: dont require - make session fn's global cmd's
 		local session = require("config.sessions")
+		local ts = require("util.typescript")
 		wk.add({
 			{ "<leader>q", "<cmd>bdelete<cr>", desc = "Close buffer" },
 			{ "<leader>L", "<cmd>Lazy<cr>", desc = "Lazy.nvim" },
@@ -36,21 +37,14 @@ return {
 			{ "<leader>m", "<cmd>Mason<cr>", desc = "Mason" },
 
 			{ "<leader>l", group = "LSP" },
-			{ "<leader>lo", "<cmd>TSToolsOrganizeImports<cr>", desc = "Organize Imports" },
-			{ "<leader>ls", "<cmd>TSToolsSortImports<cr>", desc = "Sort Imports" },
+			{ "<leader>lo", ts.organize_imports, desc = "Organize Imports" },
+			{ "<leader>ls", ts.sort_imports, desc = "Sort Imports" },
 			{ "<leader>lS", "<cmd>LspStart<cr>", desc = "Start LSP" },
-			{ "<leader>li", "<cmd>TSToolsAddMissingImports<cr>", desc = "Add Missing Imports" },
-			{ "<leader>lF", "<cmd>TSToolsFixAll<cr>", desc = "Fix All" },
-			{ "<leader>ll", "<cmd>TSToolsFileReferences<cr>", desc = "File Reference" },
-			{ "<leader>lu", "<cmd>TSToolsRemoveUnused<cr>", desc = "Remove unused" },
+			{ "<leader>li", ts.add_missing_imports, desc = "Add Missing Imports" },
+			{ "<leader>lF", ts.fix_all, desc = "Fix All" },
+			{ "<leader>ll", ts.file_references, desc = "File References" },
+			{ "<leader>lu", ts.remove_unused, desc = "Remove unused" },
 			{ "<leader>ly", "<cmd>CopyDiag<cr>", desc = "Copy diagnostic" },
-			{
-				"<leader>lf",
-				function()
-					vim.lsp.buf.format()
-				end,
-				desc = "Format",
-			},
 			{ "<leader>lI", "<cmd>LspInfo<CR>", desc = "LSP Info" },
 
 			{ "<leader>g", group = "Git" },

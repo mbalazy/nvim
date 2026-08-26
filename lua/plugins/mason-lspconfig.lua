@@ -1,5 +1,5 @@
 local mason = {
-	"williamboman/mason.nvim",
+	"mason-org/mason.nvim",
 	cmd = "Mason",
 	event = "BufReadPre",
 	opts = {
@@ -14,7 +14,7 @@ local mason = {
 }
 
 local mason_lspconfig = {
-	"williamboman/mason-lspconfig.nvim",
+	"mason-org/mason-lspconfig.nvim",
 	opts = {
 		ensure_installed = {
 			"solidity_ls",
@@ -29,13 +29,14 @@ local mason_lspconfig = {
 			"clangd",
 			"dockerls",
 			"astro",
-			-- "omnisharp", -- wyłączone - używamy csharp-ls
+			"vtsls",
+			"vue_ls",
 		},
-		automatic_installation = false,
+		-- servers are enabled explicitly in nvim-lspconfig.lua
 		automatic_enable = false,
 	},
 	event = "BufReadPre",
-	dependencies = "williamboman/mason.nvim",
+	dependencies = "mason-org/mason.nvim",
 }
 
 return {
