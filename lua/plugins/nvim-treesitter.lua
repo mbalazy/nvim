@@ -38,8 +38,6 @@ local ensure_installed = {
 	"yaml",
 }
 
--- Languages that keep regex syntax highlighting only (old `highlight.disable`).
-local highlight_disable = { "html" }
 
 return {
 	"nvim-treesitter/nvim-treesitter",
@@ -66,13 +64,7 @@ return {
 			if not vim.api.nvim_buf_is_valid(buf) then
 				return
 			end
-			if not vim.tbl_contains(highlight_disable, lang) then
-				if pcall(vim.treesitter.start, buf, lang) then
-					-- Keep regex syntax on top of treesitter
-					-- (was `additional_vim_regex_highlighting = true` on master).
-					vim.bo[buf].syntax = "ON"
-				end
-			end
+			pcall(vim.treesitter.start, buf, lang)
 			-- Folds: `foldexpr` is set globally in lua/config/options.lua.
 			vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 		end
