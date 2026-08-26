@@ -28,8 +28,7 @@ local function git_stash_with_name()
 		end
 
 		-- Create the stash with the provided name, including untracked files with -u
-		local cmd = string.format("git stash push -u -m '%s'", name)
-		local result = vim.fn.system(cmd)
+		local result = vim.fn.system({ "git", "stash", "push", "-u", "-m", name })
 
 		-- Check if the stash was successful
 		if vim.v.shell_error == 0 then

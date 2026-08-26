@@ -129,7 +129,7 @@ local function browse_commit_files(selected_commit_hash)
 				picker.list:view(selected_index)
 			end
 		end,
-		confirm = function(commits_picker, commit_item)
+		confirm = function(_commits_picker, commit_item)
 			if not commit_item or not commit_item.hash then
 				vim.notify("No commit selected", vim.log.levels.WARN)
 				return

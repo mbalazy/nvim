@@ -44,6 +44,7 @@ function M.create_and_upload_diff()
 	local is_git_repo = os.execute("git rev-parse --is-inside-work-tree &>/dev/null")
 
 	local diff_cmd
+	local buf_temp
 	if is_git_repo then
 		diff_cmd = "git diff > " .. temp_file
 		log_message("Creating git diff...")
@@ -57,7 +58,7 @@ function M.create_and_upload_diff()
 		end
 
 		local buf_content = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
-		local buf_temp = os.tmpname()
+		buf_temp = os.tmpname()
 
 		local buf_file = io.open(buf_temp, "w")
 		if not buf_file then
@@ -98,7 +99,7 @@ function M.create_and_upload_diff()
 
 	local upload_handle = io.popen(upload_cmd .. " 2>&1")
 	local upload_output = upload_handle:read("*all")
-	local _, exit_type, exit_code = upload_handle:close()
+	local _, _, exit_code = upload_handle:close()
 
 	local upload_success = (exit_code == 0 or exit_code == nil)
 		and (upload_output == "" or not upload_output:match("failed") and not upload_output:match("error"))
@@ -117,7 +118,7 @@ function M.create_and_upload_diff()
 
 			local alt_handle = io.popen(upload_cmd .. " 2>&1")
 			local alt_output = alt_handle:read("*all")
-			local _, alt_exit_type, alt_exit_code = alt_handle:close()
+			local _, _, alt_exit_code = alt_handle:close()
 
 			-- Check if alternative method was successful
 			upload_success = (alt_exit_code == 0 or alt_exit_code == nil)
