@@ -21,9 +21,8 @@ return {
 			{ "<leader>q", "<cmd>bdelete<cr>", desc = "Close buffer" },
 			{ "<leader>L", "<cmd>Lazy<cr>", desc = "Lazy.nvim" },
 
-			{ "<leader>b", group = "BufferLine" },
-			{ "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", desc = "Close all buffers to the left" },
-			{ "<leader>bl", "<cmd>BufferLineCloseRight<cr>", desc = "Close all buffers to the right" },
+			{ "<leader>b", group = "Buffer" },
+			{ "<leader>bo", "<cmd>%bdelete|edit#|bdelete#<cr>", desc = "Close other buffers" },
 
 			{ "<leader>s", group = "Search" },
 			{ "<leader>sc", "<cmd>BrowseCommitFiles<cr>", desc = "Browse files in commit" },

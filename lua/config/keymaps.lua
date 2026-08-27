@@ -8,8 +8,8 @@ keymap.set("n", "<C-k>", "<C-w>k")
 keymap.set("n", "<leader>n", ":nohlsearch<CR>", { silent = true })
 
 -- buffers navigation
-keymap.set("n", "<S-l>", ":BufferLineCycleNext<CR>", { silent = true })
-keymap.set("n", "<S-h>", ":BufferLineCyclePrev<CR>", { silent = true })
+keymap.set("n", "<S-l>", "<cmd>bnext<CR>", { silent = true, desc = "Next buffer" })
+keymap.set("n", "<S-h>", "<cmd>bprevious<CR>", { silent = true, desc = "Previous buffer" })
 
 -- misc
 keymap.set("n", "<leader>y", ":%y+<CR>", { desc = "Copy whole file", silent = true })
@@ -29,11 +29,8 @@ end, { desc = "Copy line number", silent = true })
 keymap.set("n", "<leader>Yp", "<cmd>CopyFilePath<CR>", { desc = "Copy file path", silent = true })
 keymap.set("n", "<leader>YP", "<cmd>CopyFileAbsolutePath<CR>", { desc = "Copy absolute path", silent = true })
 
-keymap.set("n", "≤", "<Cmd>BufferLineMovePrev<CR>", {})
-keymap.set("n", "≥", "<Cmd>BufferLineMoveNext<CR>", {})
-
-keymap.set("n", "<A-h>", "<Cmd>BufferLineCyclePrev<CR>", {})
-keymap.set("n", "<A-l>", "<Cmd>BufferLineCycleNext<CR>", {})
+keymap.set("n", "<A-h>", "<cmd>bprevious<CR>", { silent = true, desc = "Previous buffer" })
+keymap.set("n", "<A-l>", "<cmd>bnext<CR>", { silent = true, desc = "Next buffer" })
 
 -- Diagnostics navigation (vim.diagnostic.jump - goto_next/goto_prev are deprecated)
 keymap.set("n", "[D", function()
@@ -84,6 +81,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		keymap.set("n", "K", vim.lsp.buf.hover, { buffer = buf, desc = "Hover documentation" })
 		keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = buf, desc = "Rename symbol" })
 		keymap.set("n", "<leader>la", vim.lsp.buf.code_action, { buffer = buf, desc = "Code actions" })
-		keymap.set("n", "<leader>lf", vim.lsp.buf.format, { buffer = buf, desc = "Format file" })
 	end,
 })
