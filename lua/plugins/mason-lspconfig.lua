@@ -18,7 +18,6 @@ local mason_lspconfig = {
 	opts = {
 		ensure_installed = {
 			"solidity_ls",
-			"efm",
 			"bashls",
 			"tailwindcss",
 			"cssls",

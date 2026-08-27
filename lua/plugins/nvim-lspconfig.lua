@@ -134,65 +134,6 @@ local config = function()
 		},
 	})
 
-	-- EFM server for formatting tools
-	local luacheck = require("efmls-configs.linters.luacheck")
-	local stylua = require("efmls-configs.formatters.stylua")
-	local flake8 = require("efmls-configs.linters.flake8")
-	local black = require("efmls-configs.formatters.black")
-	local prettier_d = require("efmls-configs.formatters.prettier_d")
-	local biome = require("efmls-configs.formatters.biome")
-	local fixjson = require("efmls-configs.formatters.fixjson")
-	local shellcheck = require("efmls-configs.linters.shellcheck")
-	local shfmt = require("efmls-configs.formatters.shfmt")
-	local hadolint = require("efmls-configs.linters.hadolint")
-	local cpplint = require("efmls-configs.linters.cpplint")
-	local clangformat = require("efmls-configs.formatters.clang_format")
-
-	vim.lsp.config("efm", {
-		filetypes = {
-			"lua",
-			"python",
-			"json",
-			"jsonc",
-			"sh",
-			"javascript",
-			"javascriptreact",
-			"typescript",
-			"typescriptreact",
-			"vue",
-			"markdown",
-			"docker",
-			"html",
-			"css",
-			"c",
-			"cpp",
-		},
-		init_options = {
-			documentFormatting = true,
-			documentRangeFormatting = true,
-		},
-		settings = {
-			languages = {
-				javascript = { biome },
-				typescript = { biome },
-				javascriptreact = { biome },
-				typescriptreact = { biome },
-				vue = { prettier_d },
-				lua = { luacheck, stylua },
-				python = { flake8, black },
-				json = { fixjson },
-				jsonc = { fixjson },
-				sh = { shellcheck, shfmt },
-				markdown = { prettier_d },
-				docker = { hadolint, prettier_d },
-				html = { prettier_d },
-				css = { prettier_d },
-				c = { clangformat, cpplint },
-				cpp = { clangformat, cpplint },
-			},
-		},
-	})
-
 	-- Enable all configured LSP servers
 	local servers = {
 		"astro",
@@ -209,7 +150,6 @@ local config = function()
 		"emmet_ls",
 		"dockerls",
 		"clangd",
-		"efm",
 	}
 	if vim.fn.executable(csharp_ls_bin) == 1 then
 		table.insert(servers, "csharp_ls")
@@ -250,7 +190,6 @@ return {
 			},
 		},
 		"mason-org/mason.nvim",
-		"creativenull/efmls-configs-nvim",
 		"saghen/blink.cmp",
 	},
 }
