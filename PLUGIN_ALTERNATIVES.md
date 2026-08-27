@@ -15,8 +15,10 @@ warto rozważyć, nie pilne, **WATCH** = działa, ale obserwuj.
 ## 0. TL;DR - co faktycznie zmienić
 
 Posortowane wg (wartość / ryzyko). **Status po decyzji usera (2026-08-27):** 1, 2, 3, 6, 7
-wdrożone; 4 rozwiązane przez wyłączenie avante (task pm `nvim-2` na powrót z ACP); 5 zostaje
-do decyzji (wyjaśnienie niżej); 8, 9, 10 - 9 i 10 wdrożone, 8 czeka na TS 7 w projektach.
+wdrożone; 4 rozwiązane przez wyłączenie avante (task pm `nvim-2` na powrót z ACP); 5 wdrożone
+(snippety blink pod `<C-x>`, `<C-s>` = wbudowany signature help); 9 i 10 wdrożone; 8 czeka na TS 7
+w projektach. Drobiazgi 0.12 (`winborder = rounded`, `vim.diagnostic.status()` i
+`vim.ui.progress_status()` w lualine) i basedpyright zamiast pyright - wdrożone 2026-08-27.
 
 | # | Co | Werdykt | Dlaczego w jednym zdaniu |
 |---|----|---------|--------------------------|
