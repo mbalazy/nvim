@@ -20,7 +20,7 @@ opt.cmdheight = 1
 opt.cursorline = true
 opt.scrolloff = 10
 opt.completeopt = "menuone,noinsert,noselect,fuzzy"
-opt.winborder = "single" -- floating windows border
+opt.winborder = "rounded" -- floating windows border
 opt.showmode = false
 opt.guicursor = "n-v-c:block,i-ci-ve:block,r-cr:hor20,o:hor50,a:Cursor/lCursor,sm:block"
 

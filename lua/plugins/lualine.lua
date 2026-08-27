@@ -95,7 +95,17 @@ local config = function()
 			lualine_a = { "" },
 			lualine_b = { "branch" }, -- Add branch name here
 			lualine_c = { filename_component },
-			lualine_x = { "progress", { searchCount } },
+			lualine_x = {
+				-- Neovim 0.12 built-ins: LSP/task progress and "E:1 W:2" diagnostics summary
+				function()
+					return vim.ui.progress_status()
+				end,
+				function()
+					return vim.diagnostic.status()
+				end,
+				"progress",
+				{ searchCount },
+			},
 			lualine_y = { "" },
 			lualine_z = { "location" },
 		},
