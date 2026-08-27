@@ -46,15 +46,17 @@ local config = function()
 		},
 	})
 
-	vim.lsp.config("pyright", {
+	-- Python: basedpyright (pyright fork with inlay hints / semantic tokens)
+	vim.lsp.config("basedpyright", {
 		settings = {
-			pyright = {
+			basedpyright = {
 				disableOrganizeImports = false,
 				analysis = {
 					useLibraryCodeForTypes = true,
 					autoSearchPaths = true,
 					diagnosticMode = "workspace",
 					autoImportCompletions = true,
+					typeCheckingMode = "standard", -- basedpyright defaults to "recommended" (stricter)
 				},
 			},
 		},
@@ -143,7 +145,7 @@ local config = function()
 		"tailwindcss",
 		"solidity_ls",
 		"lua_ls",
-		"pyright",
+		"basedpyright",
 		"jsonls",
 		"bashls",
 		"cssls",
