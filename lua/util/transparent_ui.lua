@@ -8,6 +8,13 @@ vim.api.nvim_create_autocmd({ "VimEnter", "ColorScheme" }, {
       highlight TabLine guibg=NONE ctermbg=NONE
       highlight TabLineFill guibg=NONE ctermbg=NONE
       highlight TabLineSel guibg=NONE ctermbg=NONE
+      highlight MiniTablineFill guibg=NONE ctermbg=NONE
+      highlight MiniTablineCurrent guibg=NONE ctermbg=NONE gui=bold
+      highlight MiniTablineVisible guibg=NONE ctermbg=NONE
+      highlight MiniTablineHidden guibg=NONE ctermbg=NONE
+      highlight MiniTablineModifiedCurrent guibg=NONE ctermbg=NONE gui=bold
+      highlight MiniTablineModifiedVisible guibg=NONE ctermbg=NONE
+      highlight MiniTablineModifiedHidden guibg=NONE ctermbg=NONE
     ]])
 	end,
 })

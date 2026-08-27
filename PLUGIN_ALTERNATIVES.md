@@ -622,7 +622,9 @@ dają pickery snacks).
   sidebars/floats transparent). `util/clear_bufferline.lua` -> `util/transparent_ui.lua`.
 - **bufferline usunięty.** `<S-h>/<S-l>` i `<A-h>/<A-l>` = `:bprevious`/`:bnext`, `≤/≥`
   (przesuwanie zakładek) wyleciały, `<leader>bh/bl` zastąpione `<leader>bo` (zamknij pozostałe
-  bufory). Jeśli zabraknie paska: `mini.tabline` (minimalizm) albo `barbar` (parytet).
+  bufory). Pasek wrócił jako **`mini.tabline`** (`lua/plugins/tabline.lua`): nazwy + ikony,
+  bieżący bufor pogrubiony, kropka przy niezapisanym, przezroczysty; bez przycisków zamykania
+  i przeciągania (tego bufferline u Ciebie i tak nie używał).
 - **avante wyłączone** (`enabled = false`, config zachowany), `render-markdown` ma własny
   spec. Lazy wyczyścił katalogi avante, img-clip, nui, plenary. Powrót: pm `nvim-2`.
 - **efm + efmls-configs -> conform.nvim + nvim-lint** (`lua/plugins/formatting.lua`,
