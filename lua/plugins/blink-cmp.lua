@@ -34,7 +34,8 @@ return {
 			["<Tab>"] = { "snippet_forward", "fallback" },
 			["<S-Tab>"] = { "snippet_backward", "fallback" },
 
-			["<C-s>"] = {
+			-- <C-s> stays free: Neovim 0.12 maps it to vim.lsp.buf.signature_help()
+			["<C-x>"] = {
 				function(cmp)
 					cmp.show({ providers = { "snippets" } })
 				end,
