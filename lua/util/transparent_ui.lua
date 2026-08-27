@@ -1,7 +1,6 @@
--- Transparent tabline/statusline backgrounds (bufferline draws into the
--- tabline, so its highlights are overridden here after every colorscheme load).
+-- Transparent statusline/tabline backgrounds, re-applied after every colorscheme load.
 vim.api.nvim_create_autocmd({ "VimEnter", "ColorScheme" }, {
-	group = vim.api.nvim_create_augroup("user_clear_bufferline", { clear = true }),
+	group = vim.api.nvim_create_augroup("user_transparent_ui", { clear = true }),
 	callback = function()
 		vim.cmd([[
       highlight StatusLine guibg=NONE ctermbg=NONE

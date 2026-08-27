@@ -14,9 +14,9 @@ require("util.compare_with_branch")
 require("util.file_from_commit")
 require("util.copy_diag")
 require("util.copy_filename")
-require("util.clear_bufferline")
+require("util.transparent_ui")
 
-vim.cmd("colorscheme tokyodark")
+require("config.ui")
 
 -- Highlight yanked text (replaces vim-highlightedyank)
 vim.api.nvim_create_autocmd("TextYankPost", {
