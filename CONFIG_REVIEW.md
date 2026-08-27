@@ -171,3 +171,10 @@ Plan jest OK, ale krok zero to instalacja `csharp-ls` (dziś nie istnieje). `net
 - **I. .NET**: `csharp-ls` zainstalowany jako `dotnet tool` w wersji **0.16.0** - nowsze
   wersje nie instalują się na SDK .NET 8 ("DotnetToolSettings.xml was not found").
   `netcoredbg` i `csharpier` nadal nie ma.
+
+## Runda 4 (2026-08-27) - wdrożenie wyborów z PLUGIN_ALTERNATIVES.md
+
+Szczegóły w `PLUGIN_ALTERNATIVES.md` sekcja 11. W skrócie: diffview-plus, tokyonight, bez
+bufferline, avante wyłączone (pm `nvim-2`), conform + nvim-lint zamiast efm, ui2 zamiast noice,
+dodane mini.ai, treesitter-context, flash, grug-far. Punkt 5 (kolizja `<C-s>` blink z
+wbudowanym signature help 0.12) nie ruszony - czeka na decyzję.

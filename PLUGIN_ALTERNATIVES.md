@@ -14,7 +14,9 @@ warto rozważyć, nie pilne, **WATCH** = działa, ale obserwuj.
 
 ## 0. TL;DR - co faktycznie zmienić
 
-Posortowane wg (wartość / ryzyko). Wszystko poniżej to propozycje, nic nie wdrożone.
+Posortowane wg (wartość / ryzyko). **Status po decyzji usera (2026-08-27):** 1, 2, 3, 6, 7
+wdrożone; 4 rozwiązane przez wyłączenie avante (task pm `nvim-2` na powrót z ACP); 5 zostaje
+do decyzji (wyjaśnienie niżej); 8, 9, 10 - 9 i 10 wdrożone, 8 czeka na TS 7 w projektach.
 
 | # | Co | Werdykt | Dlaczego w jednym zdaniu |
 |---|----|---------|--------------------------|
@@ -612,3 +614,38 @@ dają pickery snacks).
 - C# (roslyn.nvim) nie był objęty researchem.
 - Sekcja 0 to moja synteza pięciu raportów; tam, gdzie raporty się różniły w ocenie (np. snacks
   "coasting" vs "keep"), wybrałem ostrożniejszą wersję i dałem WATCH.
+
+## 11. Wdrożone 2026-08-27 (runda 4)
+
+- **diffview -> diffview-plus** (`lua/plugins/diffview.lua`), komendy bez zmian.
+- **tokyodark -> tokyonight** (`lua/plugins/tokyonight.lua`, styl `night`, `transparent`,
+  sidebars/floats transparent). `util/clear_bufferline.lua` -> `util/transparent_ui.lua`.
+- **bufferline usunięty.** `<S-h>/<S-l>` i `<A-h>/<A-l>` = `:bprevious`/`:bnext`, `≤/≥`
+  (przesuwanie zakładek) wyleciały, `<leader>bh/bl` zastąpione `<leader>bo` (zamknij pozostałe
+  bufory). Jeśli zabraknie paska: `mini.tabline` (minimalizm) albo `barbar` (parytet).
+- **avante wyłączone** (`enabled = false`, config zachowany), `render-markdown` ma własny
+  spec. Lazy wyczyścił katalogi avante, img-clip, nui, plenary. Powrót: pm `nvim-2`.
+- **efm + efmls-configs -> conform.nvim + nvim-lint** (`lua/plugins/formatting.lua`,
+  `lua/plugins/linting.lua`). Ten sam zestaw narzędzi; `<leader>lf` = conform (z fallbackiem
+  na LSP), `gq` = conform (`formatexpr`), lint na BufReadPost/BufWritePost/InsertLeave. Bonus:
+  hadolint teraz naprawdę działa (efm miał filetype `docker`, a Neovim używa `dockerfile`).
+  efm odinstalowany z Masona. Bez format-on-save (jak wcześniej).
+- **noice -> wbudowane ui2** (`lua/config/ui.lua`, `vim._core.ui2`, eksperymentalne). Cmdline
+  na dole (wyśrodkowana paleta z noice zniknęła), wiadomości ponad `cmdheight` zwijane do
+  `[+x]` (Enter zaraz po komendzie albo `g<`), `:messages` = pager. Notyfikacje nadal Snacks.
+- **Dodane:** `mini.ai` (+ `nvim-treesitter-textobjects` main jako źródło queries): `af/if`
+  funkcja, `ac/ic` klasa, `ao/io` blok/if/pętla, plus standardowe `a(`, `i"`, `aa` argument;
+  `nvim-treesitter-context` (sticky nagłówek, `<leader>ut` toggle); `flash.nvim` (`s` skok,
+  `S` węzeł treesitter, `r`/`R` w operator-pending, `<C-s>` w cmdline toggle - uwaga: `s`
+  przestaje być "substitute char", użyj `cl`); `grug-far.nvim` (`<leader>sg`, także z
+  selekcją visual, prefiltr na rozszerzenie bieżącego pliku).
+
+Weryfikacja (tmux TUI, 2026-08-27): colorscheme `tokyonight-night`, grupy `SnacksPickerDir` i
+`BlinkCmpMenu` zdefiniowane, ui2 aktywne (okno cmd ważne, wieloliniowe `:echo` bez hit-enter),
+noice/bufferline/avante nieobecne, `:DiffviewOpen`/`:GrugFar`/`:ConformInfo` istnieją,
+stylua formatuje (`function M.long(a,b)` -> `(a, b)`), biome dostępny w fable-app (format
+bez zmian na czystym pliku), luacheck daje diagnostykę `unused variable` przy otwarciu pliku
+(po fixie: plugin ładowany na BufReadPost lintuje też bufor, który go załadował), `vif`
+zaznacza ciało funkcji, sticky context widoczny po przewinięciu, flash pokazuje wskaźnik ⚡,
+LSP w fable-app: vtsls + eslint + tailwindcss (bez efm), csharp_ls attachuje się w projekcie
+C#, `:messages` bez błędów.
