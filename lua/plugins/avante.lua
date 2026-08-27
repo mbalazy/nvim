@@ -1,5 +1,8 @@
+-- Disabled 2026-08-27: not in use right now. Re-enable together with the
+-- built-in ACP provider `claude-code` (see pm task nvim-2 / PLUGIN_ALTERNATIVES.md 5.1).
 return {
 	"yetone/avante.nvim",
+	enabled = false,
 	event = "VeryLazy",
 	version = false, -- Never set this value to "*"! Never!
 	opts = {
@@ -66,14 +69,6 @@ return {
 					use_absolute_path = true,
 				},
 			},
-		},
-		{
-			-- Make sure to set this up properly if you have lazy=true
-			"MeanderingProgrammer/render-markdown.nvim",
-			opts = {
-				file_types = { "markdown", "Avante" },
-			},
-			ft = { "markdown", "Avante" },
 		},
 	},
 }
