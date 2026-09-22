@@ -78,6 +78,16 @@ return {
             ["<c-b>"] = { "list_scroll_up", mode = { "i", "n" } },
           },
         },
+        -- Same swap for the list window - the explorer keeps focus there
+        -- (tree in normal mode), so the input-window keys never apply.
+        list = {
+          keys = {
+            ["<c-u>"] = "preview_scroll_up",
+            ["<c-d>"] = "preview_scroll_down",
+            ["<c-f>"] = "list_scroll_down",
+            ["<c-b>"] = "list_scroll_up",
+          },
+        },
       },
     },
     quickfile = { enabled = true },
